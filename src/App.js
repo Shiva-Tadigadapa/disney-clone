@@ -6,6 +6,7 @@ import Home from './components/Home';
 import Recomended from './components/Recomended';
 import Detail from './components/Detail';
 import './App.css';
+import NewDetail from './components/newDetail';
 
 function App() {
   return (
@@ -13,10 +14,10 @@ function App() {
       <Router>
     <Header />
         <Routes>
-           <Route exact path='/' element={<Login />}>
+           <Route  path='/' element={<Login />}>
            </Route>
-           <Route exact path='/home' element={<Home />}/>
-           <Route exact path='/detail/:id' element={<Detail />} />
+           <Route  path='/home' element={<Home />}/>
+           <Route  path='/detail/:id/:type' element={<NewDetail />} />
         </Routes>
       </Router>
     </div>

@@ -1,40 +1,62 @@
 import styled from "styled-components";
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
+import { useSelector, useDispatch } from "react-redux";
 import db from "../firebase";
+import { SelectImages } from "../features/APISlice/ApiSlice";
+import { SelectImgLinks } from "../features/APISlice/ApiSlice";
+// import { mo } from "../features/APISlice/ApiSlice";
+import { setResults } from "../features/APISlice/ApiSlice";
 
 const Detail = (props) => {
   const { id } = useParams();
-  const [detailData, setDetailData] = useState({});
-
+  const [detailData, setDetailData] = useState([]);
+  const [detailData2, setDetailData2] = useState([]);
+  const [detailData3, setDetailData3] = useState([]);
+  const dispatch = useDispatch();
+  let ApiImg = useSelector(SelectImages);
+  let logo_img = useSelector(SelectImgLinks);
+  console.log(detailData3.name);
   useEffect(() => {
-    db.collection("movies").doc(
-        id).get().then((doc) => {
-            if(doc.exists) {
-                setDetailData(doc.data());
-            } else {
-                console.log("No such document in firebase");
-            }
-        }).catch((error) => {
-            console.log("Error getting document:", error);
-        });
-        
+    const apiImgLogoCall = async () => {
+      let url;
+      for (let i = 0; i < ApiImg.length; i++) {
+        if (ApiImg[i].id == id) {
+          if (ApiImg[i].media_type == "movie") {
+            url = `https://api.themoviedb.org/3/movie/${id}/images?api_key=c5ad2827c51f36bcbad41dc821d6d7c1`;
+          } else {
+            url = `https://api.themoviedb.org/3/tv/${id}/images?api_key=c5ad2827c51f36bcbad41dc821d6d7c1`;
+          }
+        }
+      }
+      const response = await fetch(url);
+      const data = await response.json();
+      setDetailData(
+        "https://image.tmdb.org/t/p/w500" + data.logos[0].file_path
+      );
+      setDetailData2(
+        "https://image.tmdb.org/t/p/w500" + data.backdrops[3].file_path
+      );
+    };
+    apiImgLogoCall();
   }, [id]);
 
+  useEffect(() => {
+    for (let i = 0; i < ApiImg.length; i++) {
+      if (ApiImg[i].id == id) {
+        setDetailData3(ApiImg[i]);
+      }
+    }
+  }, [id]);
   return (
     <Container>
       <Background>
-        <img
-          src={detailData.backgroundImg}
-          alt={detailData.title}
-        />
+        <img src={detailData2} alt={detailData3.name} />
       </Background>
       <ImageTitle>
-        <img
-          src={detailData.titleImg}
-          alt={detailData.title}
-        />
+        <img src={detailData} alt={detailData3.name} />
       </ImageTitle>
+      <h1>{detailData3.name}</h1>
       <ContentMeta>
         <Controls>
           <Player>
@@ -55,10 +77,8 @@ const Detail = (props) => {
             </div>
           </GroupWatch>
         </Controls>
-        <SubTitle>{detailData.subTitle}</SubTitle>
-        <Description>
-            {detailData.description}
-        </Description>
+        <SubTitle>{detailData3.name}</SubTitle>
+        <Description>{detailData3.overview}</Description>
       </ContentMeta>
     </Container>
   );
@@ -84,8 +104,7 @@ const Background = styled.div`
   opacity: 0.4;
   img {
     width: 100%;
-    height: 100%;
-
+    // height: 100%;
     @media (max-width: 768px) {
       width: initial;
     }
@@ -97,12 +116,12 @@ const ImageTitle = styled.div`
   -webkit-box-pack: start;
   justify-content: flex-start;
   margin: 0px auto;
-  height: 30vw;
+  height: 25vw;
   min-height: 170px;
   padding-bottom: 24px;
   width: 100%;
   img {
-    max-width: 600px;
+    max-width: 400px;
     min-width: 200px;
     width: 35vw;
   }
@@ -141,7 +160,6 @@ const Player = styled.button`
   &:hover {
     background: rgb(198, 198, 198);
   }
-
   @media (max-width: 768px) {
     height: 45px;
     padding: 0px 12px;
@@ -186,7 +204,6 @@ const AddList = styled.div`
       width: 2px;
     }
   }
-
   @media (max-width: 768px) {
     height: 40px;
     width: 40px;
@@ -226,7 +243,6 @@ const GroupWatch = styled.div`
       width: 100%;
     }
   }
-
   @media (max-width: 768px) {
     height: 40px;
     width: 40px;
