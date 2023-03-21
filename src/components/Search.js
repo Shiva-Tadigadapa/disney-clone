@@ -69,7 +69,7 @@ const Search = () => {
 
                 <img
                   className="w-full h-full rounded-[8px] "
-                  src={"https://image.tmdb.org/t/p/w500"+item.backdrop_path}
+                  src={"https://image.tmdb.org/t/p/original"+item.backdrop_path}
                   alt="movie"
                   />
               </BackgroundImage>

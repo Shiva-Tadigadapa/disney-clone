@@ -39,7 +39,7 @@ useEffect(()=>{
         <span></span>
         <SeasonHolder>
           <SeasonBackground>
-            <img src={"https://image.tmdb.org/t/p/w500"+season.poster_path} alt="" />
+            <img src={"https://image.tmdb.org/t/p/original"+season.poster_path} alt="" />
           </SeasonBackground>
           <SeasonInfo>
             <SeasonTitle>Attack on TaITAN</SeasonTitle>
