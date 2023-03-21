@@ -7,6 +7,7 @@ import Recomended from './components/Recomended';
 import Detail from './components/Detail';
 import './App.css';
 import NewDetail from './components/newDetail';
+import Search from './components/Search';
 
 function App() {
   return (
@@ -18,6 +19,7 @@ function App() {
            </Route>
            <Route  path='/home' element={<Home />}/>
            <Route  path='/detail/:id/:type' element={<NewDetail />} />
+           <Route  path='/search/:name' element={<Search />} />
         </Routes>
       </Router>
     </div>

@@ -22,7 +22,7 @@ const TopRated = (props) => {
   };
   return (
      <>
-    <p style={{ margin: "5px 0 0 0", fontSize:"28px ",letterSpacing:"1.5px"}}>Upcoming</p>
+    <p  style={{ margin: "5px 0 0 0", fontSize:"28px ",letterSpacing:"1.5px" }}>Upcoming</p>
     <hr
         style={{
           width: "100%",

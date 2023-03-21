@@ -1,3 +1,21 @@
+
+
 a{
     text-decoration: none;
+}   
+
+body{
+    /* background-color: #040714;
+    color: #d0d0d0;
+    font-family: poppins;
+    margin: 0;
+    padding: 0; */
+    /* background: url("/images/images/home-background.png") center center / cover no-repeat fixed; */
+    /* background-image: url("/images/images/home-background.png"); */
+    /* content: ""; */
+    /* position: fixed; */
+    /* inset: 0px; */
+    /* opacity: 1; */
+    /* bottom: 0; */
+    /* z-index: -3; */
 }

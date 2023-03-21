@@ -1,3 +1,7 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
 html{
   scroll-behavior: smooth;
 }
@@ -13,7 +17,14 @@ body{
   font-family: poppins;
   margin: 0;
   padding: 0;
-
+   /* background: url("/images/images/home-background.png") center center / cover no-repeat fixed; */
+  /* background-image: url("/images/images/home-background.png"); */
+   /* content: ""; */
+  /* position: fixed; */
+  /* inset: 0px; */
+  /* opacity: 1; */
+  /* bottom: 0; */
+  /* z-index: -3; */
 }
 a{
   color: #f9f9f9;

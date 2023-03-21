@@ -124,6 +124,20 @@ const NewDetail = () => {
               getCastDetails();
               // console.log(CastDetail);
             },[]);
+
+            let url
+            const GetMovieDetails =async()=>{
+              if ( type == "movie") {
+                url = `https://api.themoviedb.org/3/movie/${id}/images?api_key=c5ad2827c51f36bcbad41dc821d6d7c1`;
+              } else {
+                url = `https://api.themoviedb.org/3/tv/${id}/images?api_key=c5ad2827c51f36bcbad41dc821d6d7c1`;
+              }
+              const response = await fetch(url);
+              const data = await response.json();
+              console.log(data);
+
+            }
+            GetMovieDetails();
   return (
     
     
@@ -221,7 +235,7 @@ const Container = styled.div`
     no-repeat fixed;
     content: "";
     position: fixed;
-    inset: 0px;
+    inset: 0px; 
     opacity: 1;
     bottom: 0;
     z-index: -3;

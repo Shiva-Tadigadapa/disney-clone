@@ -31,7 +31,7 @@ const Viewers = (props) => {
         <img src="/images/images/viewers-national.png" alt="" />
         <video autoPlay={true} loop={true} playsInline={true} muted >
           <source src='/videos/videos/1564676296-national-geographic.mp4' type="video/mp4" />
-        </video>
+        </video>  
       </Wrap>
     </Container>
   );

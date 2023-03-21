@@ -2,6 +2,7 @@ import styled from "styled-components";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { useEffect } from "react";
+import { useState } from "react";
 import {
   SelectUserName,
   SelectUserPhoto,
@@ -9,12 +10,28 @@ import {
   setSignOutState,
 } from "../features/users/userSlice";
 import { auth, provider } from "../firebase";
+ 
+import   {BiSearchAlt2} from "react-icons/bi"
 
 const Header = (props) => {
+  const [isActive, setIsActive]= useState(false);
+  const [search, setSearch]= useState(null);
   const dispatch = useDispatch();
   const history = useNavigate();
   const userName = useSelector(SelectUserName);
   const userPhoto = useSelector(SelectUserPhoto);
+
+  function inputVal(e){
+    setSearch(e.target.value);
+  }
+  
+  function onSubmitHandler(e){
+    if(e.key==="Enter"){
+      e.preventDefault();
+      history(`/search/${search}`)
+      console.log(search);
+    }
+  }
 
   useEffect(() => {
     auth.onAuthStateChanged(async (user) => {
@@ -53,6 +70,11 @@ const Header = (props) => {
       })
     );
   };
+  const handelClick=()=>{
+    setIsActive(!isActive);
+    
+  }
+  
 
   return (
     <Nav>
@@ -69,7 +91,7 @@ const Header = (props) => {
           <img src="/images/images/home-icon.svg" alt="HOME" />
           <span>HOME</span>
         </a>
-        <a href="/">
+        <a href="/search">
           <img src="/images/images/search-icon.svg" alt="HOME" />
           <span>SEARCH</span>
         </a>
@@ -90,6 +112,10 @@ const Header = (props) => {
           <span>SERIES</span>
         </a>
       </NavMenu>
+        {
+          isActive ? <SearchBar  style={{dislpay:"block",width:"280px",transition: "all 10.5s ease-in-out",animation: "fadeIn 2.5s" }}><input onChange={inputVal} onKeyPress={onSubmitHandler} type="text" placeholder="Search Movie"  /></SearchBar>: <SearchBar style={{display:"none",width:"0"}}><input type="text" placeholder="Search Movie"  /></SearchBar>
+        }
+        <BiSearchAlt2 style={{ fontSize:"24px", color:"gray",margin:"10px 80px 0 0",cursor:"pointer" ,}} onClick={handelClick} />
       <SignOut>
           <U>{userName}</U>
       <UserImg src={userPhoto} alt="userName" />
@@ -101,7 +127,59 @@ const Header = (props) => {
       )}
     </Nav>
   );
-};
+}
+
+const SearchBar = styled.div`
+
+& ${BiSearchAlt2}:hover {
+  color: white;
+ }
+color: white;
+  display: flex;
+  align-items: center;
+  height: 35px;
+  // width: 0;  
+  // border-radius: 5px;
+  // background-color: #f9f9f9;
+  padding: 0 10px;
+  margin-left: 25px;
+  margin-right: 25px;
+  border-bottom: 0.5px solid gray;
+  background-color: transparent;  
+  padding: 10px 10px;
+  // display: none;
+  margin-right: 50px;
+  
+  
+  margin: 0;
+  input {
+    &:hover{
+      color: white;
+    }
+    caret-color: gray;
+    place-items: center;
+    border: none;
+    width: 100%;
+    color: gray;
+    height: 100%;
+    background-color: transparent;
+    padding: 110px 10px;
+    font-size: 16px;
+    letter-spacing: 1.42px;
+    line-height: 1.08;
+    &:focus {
+      outline: none;
+    }
+  }
+
+    // @media (max-width: 768px) {
+    //   display: none;
+    // }
+
+
+
+  
+`;
 
 const Nav = styled.nav`
   position: fixed;
@@ -111,12 +189,17 @@ const Nav = styled.nav`
   height: 70px;
   width: 100%;
   background-color: #090b13;
+  // filter: blur(5px);
+  // backdrop-filter: blur(5px);
+  // z-index: 1;
   display: flex;
   justify-content: space-between;
   align-items: center;
   padding: 0 36px;
   letter-spacing: 16px;
-  z-index: 3;
+  z-index: 4;
+ 
+  
 `;
 
 const Logo = styled.a`
@@ -142,6 +225,7 @@ const NavMenu = styled.div`
   padding: 0;
   margin-right: auto;
   margin-left: 25px;
+  z-index: 4; 
 
   a {
     text-decoration: none;
