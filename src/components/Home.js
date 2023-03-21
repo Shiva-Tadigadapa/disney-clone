@@ -1,10 +1,7 @@
 import styled from "styled-components";
 import ImgSlider from "./ImgSlider";
 import Viewers from "./Views";
-import Recomended from "./Recomended";
-import NewDisney from "./NewDisney";
-import Originals from "./Originals";
-import Trending from "./Trending";
+
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import db from "../firebase";
@@ -32,7 +29,7 @@ const Home = (props) => {
   let imgs = [];
   let topDay = [];
   let topRated = [];
-  let allResults = [];
+
   let geners = [
     { id: 10759, name: "Action & Adventure" },
     { id: 28, name: "Action" },
@@ -148,78 +145,11 @@ const Home = (props) => {
           geners: findGern(...data3.results[i].genre_ids),
         });
       }
-      for (let i = 0; i < data.results.length; i++) {
-        allResults.push({
-          image:
-            "https://image.tmdb.org/t/p/original" + data.results[i].backdrop_path,
-          id: data.results[i].id,
-          name:
-            data.results[i].name ||
-            data.results[i].title ||
-            data.results[i].original_title,
-          or_lan: data.results[i].original_language,
-          overview: data.results[i].overview,
-          poster_path:
-            "https://image.tmdb.org/t/p/original" + data.results[i].poster_path,
-          FAD: dateSlicer(
-            data.results[i].first_air_date || data.results[i].release_date
-          ),
-          vote: data.results[i].vote_average,
-          media_type: data.results[i].media_type,
-          rating: Slicer(data.results[i].vote_average),
-          or_country: data.results[i].origin_country,
-          geners: findGern(...data.results[i].genre_ids),
-        });
-      }
 
-      for (let i = 0; i < data2.results.length; i++) {
-        allResults.push({
-          image:
-            "https://image.tmdb.org/t/p/original" + data2.results[i].backdrop_path,
-          id: data2.results[i].id,
-          name:
-            data2.results[i].name ||
-            data2.results[i].title ||
-            data2.results[i].original_title,
-          or_lan: data2.results[i].original_language,
-          overview: data2.results[i].overview,
-          poster_path:
-            "https://image.tmdb.org/t/p/original" + data2.results[i].poster_path,
-          FAD: dateSlicer(
-            data2.results[i].first_air_date || data2.results[i].release_date
-          ),
-          vote: data2.results[i].vote_average,
-          media_type: "movie",
-          rating: Slicer(data2.results[i].vote_average),
-          or_country: data2.results[i].origin_country,
-          geners: findGern(...data2.results[i].genre_ids),
-        });
-      }
 
-      for (let i = 0; i < data3.results.length; i++) {
-        allResults.push({
-          image:
-            "https://image.tmdb.org/t/p/original" + data3.results[i].backdrop_path,
-          id: data3.results[i].id,
-          name:
-            data3.results[i].name ||
-            data3.results[i].title ||
-            data3.results[i].original_title,
-          or_lan: data3.results[i].original_language,
-          overview: data3.results[i].overview,
-          poster_path:
-            "https://image.tmdb.org/t/p/original" + data3.results[i].poster_path,
-          FAD: dateSlicer(
-            data3.results[i].first_air_date || data3.results[i].release_date
-          ),
-          vote: data3.results[i].vote_average,
-          media_type: data3.results[i].media_type,
-          rating: Slicer(data3.results[i].vote_average),
-          or_country: data3.results[i].origin_country,
-          geners: findGern(...data3.results[i].genre_ids),
-        });
-      }
+     
 
+     
 
       for (let i = 0; i < data2.results.length; i++) {
         topRated.push({
@@ -252,7 +182,7 @@ const Home = (props) => {
           customTopRated: topRated,
           topDay: data3.results,
           CostopDay: topDay,
-          AllResults: allResults,
+
         })
       );
 
@@ -269,8 +199,7 @@ const Home = (props) => {
       <Viewers />
       <NewTrending />
       <TopRated />
-      <Originals />
-      <Trending />
+
     </Container>
   );
 };
