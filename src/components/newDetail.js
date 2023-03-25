@@ -4,31 +4,124 @@ import { FaPlay } from "react-icons/fa";
 import { MdAddCircleOutline } from "react-icons/md";
 import { FiShare2 } from "react-icons/fi";
 import { GiShare } from "react-icons/gi";
-
+import { setResults } from "../features/APISlice/ApiSlice";
 // import styled from "styled-components";
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import db from "../firebase";
+import 'firebase/firestore';
+import firebase from "firebase/compat/app";
 // import { SelectAllResults, SelectImages } from "../features/APISlice/ApiSlice";
 import { SelectImgLinks } from "../features/APISlice/ApiSlice";
 // import { mo } from "../features/APISlice/ApiSlice";
-import { setResults } from "../features/APISlice/ApiSlice";
-import { SelectTopRated } from "../features/APISlice/ApiSlice";
+// import { setResults } from "../features/APISlice/ApiSlice";
+// import { SelectTopRated } from "../features/APISlice/ApiSlice";
 import { GrAdd } from "react-icons/gr";
 import { SelectAllResults } from "../features/APISlice/ApiSlice";
+import MdetailRec from "./MdetailRec";
 import SeasonDetail from "./SeasonDetail";
+import {auth , provider ,wl} from "../firebase"
+import { Link } from "react-router-dom";
+
+
 
 const NewDetail = () => {
-  const { id, type } = useParams();
- 
+  let wids = [];
 
+  const ReadMore = ({ Children }) => {
+    const text = apiData.overview;
+    // console.log(text)
+    // const v1=text && text.slice(0, 150)
+    // console.log(v1)
+    const [isReadMore, setIsReadMore] = useState(true);
+    const toggleReadMore = () => {
+      setIsReadMore(!isReadMore);
+    };
+    return (
+      <p className="text">
+        {isReadMore ? text && text.slice(0, 327) :text && text.slice(0, 427)}
+        <span
+          onClick={toggleReadMore}
+          className="read-or-hide text-gray-100 cursor-pointer"
+        >
+          {isReadMore ? "...read more" : " show less"}
+        </span>
+      </p>
+    );
+  };
+
+  const { id, type } = useParams();
+  const dispatch = useDispatch();
+
+  const [watchTrailer, setWatchTrailer] = useState(false);
   const [castData, setCastData] = useState("");
   const [apiData, setApiData] = useState("");
   const [imgData, setImgData] = useState("");
-  const [genersData, setgeners] = useState("");
+  const [watch, setwatchData] = useState("");
 
+  const Changestate = () => {
+    setWatchTrailer(true);
+  };
 
+  let things;
+  const handleFir = () =>{  auth.onAuthStateChanged(async (user)=>{
+            if(user){
+               things =db.collection('watchlist2/'+user.uid+'/watchlist');
+                  things.add({
+                    uid : user.uid,
+                    id : id,
+                    type:type,
+                  })
+            }
+  
+    })
+  
+  }
+
+  const [currentUser, setCurrentUser] = useState(null);
+// const [wids, setWids] = useState([]);
+
+useEffect(() => {
+  async function fetchWids() {
+    const watchlistRef = firebase.firestore().collection('watchlist2/'+currentUser+'/watchlist');
+      console.log(currentUser);
+    // if (currentUser && currentUser) {
+
+      const querySnapshot = await watchlistRef.get();
+      // console.log(querySnapshot._delegate._snapshot.docChanges[0].doc.data.value.mapValue.fields.id.stringValue);
+      // console.log(querySnapshot._delegate._snapshot.docChanges[0].doc.data.value.mapValue.fields.type.stringValue);
+      // console.log(querySnapshot._delegate._snapshot.docChanges[0].doc.data.value.mapValue.fields.uid.stringValue);
+      // console.log(querySnapshot._delegate._snapshot.docChanges);
+      querySnapshot._delegate._snapshot.docChanges.forEach(doc => {
+        wids.push([
+          doc.doc.data.value.mapValue.fields.id.stringValue,
+          doc.doc.data.value.mapValue.fields.type.stringValue,
+          doc.doc.data.value.mapValue.fields.uid.stringValue
+        ]);
+      });
+      // setWids(wids);
+      // setwatchData(wids);
+      console.log(wids);
+      // console.log(watch);
+     
+
+    // } else {
+      // console.log('No user is currently logged in.');
+    // }
+  }
+
+  fetchWids();
+}, [currentUser]);
+
+useEffect(() => {
+  const unsubscribe = firebase.auth().onAuthStateChanged(user => {
+    // console.log(user.multiFactor.user.uid);
+    setCurrentUser(user.multiFactor.user.uid);
+    // console.log(currentUser);
+  });
+  return unsubscribe;
+}, []);
 
   const sliceData = (data) => {
     let arr = [];
@@ -40,7 +133,7 @@ const NewDetail = () => {
     return arr;
   };
 
-  const dispatch = useDispatch();
+  
   let logo_img = useSelector(SelectImgLinks);
   // console.log(detailData3.name);
   let ApiImg = useSelector(SelectAllResults);
@@ -77,7 +170,7 @@ const NewDetail = () => {
     const data2 = await response2.json();
     console.log(data);
     // console.log(data.backdrop_path);
-    console.log(data2);
+    // console.log(data2);
     setApiData(data);
     if (data2.backdrops[3].file_path == null) {
       setImgData("https://image.tmdb.org/t/p/original" + data.backdrop_path);
@@ -87,34 +180,43 @@ const NewDetail = () => {
       );
     }
     // setImgData(data2);
-    console.log(imgData);
-    console.log(data2.backdrops[3].file_path);
-    console.log(data.genres[0].name);
+    // console.log(imgData);
+    // console.log(data2.backdrops[3].file_path);
+    // console.log(data.genres[0].name);
   };
   useEffect(() => {
     GetMovieDetails();
   }, []);
+
   return (
     <>
       <Container>
+      {/* <iframe width="560" height="315" src="https://www.youtube.com/embed/Z1Pn3CqXCTs" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe> */}
         <Content>
           <Background>
-            <img src={
-              
+            {/* <img src={
               imgData
-              } alt="" />
-            <MetaData>
+              } alt="" /> */}
+<iframe width="560" height="315" src="https://www.youtube.com/embed/XCw77HUloN8?controls=0&autoplay=1" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>            <MetaData>
               <TitleName>{apiData.original_title||apiData.name}</TitleName>
               <MovieDis>
-                2 hr 1 min &#8226;
+                {apiData && apiData.runtime || apiData.episode_run_time   } min &#8226;
                 {apiData &&
                   apiData.genres.map((genre) => (
-                    <span key={genre.id}>{genre.name} , </span>
-                  ))}
-                {apiData && sliceData(apiData.release_date||apiData.first_air_date)} &#8226; {apiData && apiData.original_language} &#8226; {apiData && apiData.vote_average}&#9733;
+                    <span key={genre.id}>{genre.name} | </span>
+                    ))}
+                {apiData && sliceData(apiData.release_date||apiData.first_air_date)} &#8226; {apiData && apiData.original_language} &#8226; {apiData && apiData.vote_average.toFixed(1)}&#9733;
               </MovieDis>
-              <TitleDis>{apiData.overview}</TitleDis>
-              <WatchContainer>
+              <TitleDis>
+              <ReadMore>
+
+                {apiData.overview}
+                
+              </ReadMore>
+                </TitleDis>
+              <WatchContainer
+                onClick={Changestate}
+              >
                 <FaPlay
                   style={{
                     fontSize: "28px",
@@ -133,7 +235,8 @@ const NewDetail = () => {
                   Watch Trailer
                 </p>
                 <ShareContainer>
-                  <MdAddCircleOutline
+                  <MdAddCircleOutline   onClick={()=>handleFir()}
+                    className="hover:transform hover:scale-110 hover:animate-pulse"
                     style={{
                       fontSize: "40px",
                       marginTop: "33px",
@@ -156,7 +259,13 @@ const NewDetail = () => {
           </Background>
         </Content>
       </Container>
-      <SeasonDetail />
+    {
+      type == "movie" ? <MdetailRec /> : <SeasonDetail />
+    }
+      {/* <MdetailRec /> */}
+
+      {/* <SeasonDetail /> */}
+    
       <CastContainer>
         <CastDetail>
           {castData &&
@@ -300,6 +409,19 @@ const Background = styled.div`
     //     exsisting margin;
     //   }
   }
+  iframe{
+    inset: 0px;
+    // display: block;
+    // height: 100%;
+    position: absolute;
+    object-fit: cover;
+    opacity: 1;
+    z-index: -3;
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    margin: 0 0 0 20.3%;
+  }
 
   // responsive: {
   //   add{
@@ -357,7 +479,8 @@ const WatchContainer = styled.div`
 `;
 
 const ShareContainer = styled.div`
-  margin: 0 0 0 15%;
+  margin: 0 0 0 10%;
+  display: flex;
 `;
 
 const CastContainer = styled.div`
@@ -394,11 +517,7 @@ const CastDetail = styled.div`
     border-radius: 10px;
     border: 10px solid #1d212f;
   }
-  // ::-webkit-scrollbar{
-  //   height: 4px;
-  //   width: 4px;
-  //   background: gray;
-  // }
+
   &::-webkit-scrollbar-thumb:horizontal {
     background: #3a3c44;
     border-radius: 6px;

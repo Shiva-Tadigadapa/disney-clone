@@ -77,7 +77,7 @@ const Header = (props) => {
   
 
   return (
-    <Nav>
+    <Nav className=" backdrop-blur-[18px]  bg-[#090b13]/60">
       <Logo>
         <img src="/images/images/logo.svg" alt="Disney+" />
       </Logo>
@@ -86,7 +86,7 @@ const Header = (props) => {
         <Login onClick={handelAuth}>Login</Login>
         ) : (
         <>
-      <NavMenu>
+      <NavMenu className="  ">
         <a href="/home">
           <img src="/images/images/home-icon.svg" alt="HOME" />
           <span>HOME</span>
@@ -95,7 +95,7 @@ const Header = (props) => {
           <img src="/images/images/search-icon.svg" alt="HOME" />
           <span>SEARCH</span>
         </a>
-        <a href="/">
+        <a href="/watchList">
           <img src="/images/images/watchlist-icon.svg" alt="HOME" />
           <span>WATCHLIST</span>
         </a>
@@ -188,7 +188,7 @@ const Nav = styled.nav`
   rigth: 0;
   height: 70px;
   width: 100%;
-  background-color: #090b13;
+  // background-color: #090b13;
   // filter: blur(5px);
   // backdrop-filter: blur(5px);
   // z-index: 1;
@@ -198,7 +198,7 @@ const Nav = styled.nav`
   padding: 0 36px;
   letter-spacing: 16px;
   z-index: 4;
- 
+  
   
 `;
 

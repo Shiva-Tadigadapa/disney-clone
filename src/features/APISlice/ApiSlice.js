@@ -17,7 +17,7 @@ const initialState = {
     customTopRated: "",
     topDay: "",
     CostopDay: "",
-   
+    WatchList: "",
 }
 
 const ApiSlice = createSlice({
@@ -53,7 +53,9 @@ const ApiSlice = createSlice({
             state.customTopRated=action.payload.customTopRated;
             state.topDay=action.payload.topDay;
             state.CostopDay=action.payload.CostopDay;
+            state.WatchList=action.payload.WatchList;
         }, 
+
     },
 });
 
@@ -67,6 +69,7 @@ export const SelectTopRated = (state)=>state.Api.topRated;
 export const SelectCustomTopRated = (state)=>state.Api.customTopRated;
 export const SelectTopDay = (state)=>state.Api.topDay;
 export const SelectCostopDay = (state)=>state.Api.CostopDay;
+export const SelectWatchList = (state)=>state.Api.WatchList;
 
 export default ApiSlice.reducer;
 

@@ -3,11 +3,16 @@ import styled from 'styled-components'
 import { FaPlay } from "react-icons/fa";
 import { useParams } from 'react-router-dom';
 import { useState } from 'react';
+import { Link } from 'react-router-dom';
 // import { useEffect } from 'react';
 
 const SeasonDetail = () => {
   
+  
+
+
 const [AllSeasons,setSeasons]= useState([]);
+const [AllEpisodes,setEpisodes]= useState([]);
 
 const {id,type}= useParams();  
 useEffect(()=>{
@@ -15,14 +20,15 @@ useEffect(()=>{
     const url = `https://api.themoviedb.org/3/tv/${id}?api_key=c5ad2827c51f36bcbad41dc821d6d7c1&language=en-US`
     const response = await fetch(url);
     const data = await response.json();
-    console.log(data.seasons);
+    console.log(data);
     setSeasons(data.seasons);
+    setEpisodes(data);
     console.log("inside"+AllSeasons);
   }
   getSeason();
-      console.log("useEffect"+AllSeasons);
+      // console.log("useEffect"+AllSeasons);
 
-      console.log("outside"+AllSeasons);
+      // console.log("outside"+AllSeasons);
     },[setSeasons])
   return (
     <>
@@ -32,18 +38,25 @@ useEffect(()=>{
      <SeasonContainer>
     {
       AllSeasons && AllSeasons.map((season)=>(
-
         
-      <Holla>
+        
+        <Holla>
         <h3>{season.name}</h3>
         <span></span>
+        <Link to={`Season/${season.season_number}`}>
+
         <SeasonHolder>
           <SeasonBackground>
             <img src={"https://image.tmdb.org/t/p/original"+season.poster_path} alt="" />
           </SeasonBackground>
           <SeasonInfo>
-            <SeasonTitle>Attack on TaITAN</SeasonTitle>
-            <SeasonDescription>   7.9★    {season.air_date} &#8226; Action</SeasonDescription>
+            <SeasonTitle>{AllEpisodes.name}</SeasonTitle>
+            <SeasonDescription>   {AllEpisodes.vote_average && AllEpisodes.vote_average.toFixed(1)}★    {season.air_date && season.air_date.slice(0,4)} &#8226; 
+              
+                {
+                  AllEpisodes.genres && AllEpisodes.genres[0].name
+                  }           
+            </SeasonDescription>
             <SeasonEpisodes>
               <SeasonEps>
               <FaPlay style={{ fontSize: "14px",margin:"2px 5px 2px -2px"}} />
@@ -51,6 +64,7 @@ useEffect(()=>{
             </SeasonEpisodes>
           </SeasonInfo>
         </SeasonHolder>
+        </Link>
         </Holla>
 
 
@@ -144,7 +158,7 @@ justify-content: start;
 const SeasonHolder = styled.div`
 overflow: hidden; 
 background-color: #070f1a;
-width: 270px;
+width: 280px;
 height: 165px;
 border-radius: 10px;
 display: flex;
@@ -163,7 +177,7 @@ position: relative;
 
 const SeasonBackground = styled.div`
 height: 100%;
-// width: 100%;
+width: 100%;
 &::before{
   content: "";
   position: absolute;
@@ -196,17 +210,17 @@ width:100%;
   flex-direction: column;
   // align-items: bottom;
   // justify-content: space-between;
-  margin: 0 0 0 0;
-  padding: 10px 10px 10px 10px;
-  bottom: 0;
-  left: 0;
-  right: 0;
+  margin: 0 0 0 -32px;
+  padding: 10px 10px 10px 0px;
+  // bottom: 0;
+  // left: 0;
+  // right: 0;
   top: 40%;
   z-index: 2;
 `;
 
 const SeasonTitle = styled.div`
-  font-size: 1.2rem;
+  font-size: 1.1rem;
   font-weight: 600;
   margin: 0 0 0 0;
   letter-spacing: 1px;

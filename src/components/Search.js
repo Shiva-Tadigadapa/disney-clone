@@ -20,8 +20,9 @@ const Search = () => {
       const data = await response.json();
       for (let i = 0; i < data.results.length; i++) {
         if (data.results[i].backdrop_path) {
-          SortedData.push(data.results[i]);
-        }
+        //   SortedData.push(data.results[i]);
+        SortedData = [...SortedData , data.results[i]];
+      }
       }
       // data.results = SortedData;
       console.log(data);
