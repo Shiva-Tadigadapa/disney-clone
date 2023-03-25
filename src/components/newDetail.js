@@ -61,7 +61,8 @@ const NewDetail = () => {
   const [watch, setwatchData] = useState("");
 
   const Changestate = () => {
-    setWatchTrailer(true);
+
+   watchTrailer ? setWatchTrailer(false) : setWatchTrailer(true);
   };
 
   let things;
@@ -194,10 +195,15 @@ useEffect(() => {
       {/* <iframe width="560" height="315" src="https://www.youtube.com/embed/Z1Pn3CqXCTs" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe> */}
         <Content>
           <Background>
-            {/* <img src={
-              imgData
-              } alt="" /> */}
-<iframe width="560" height="315" src="https://www.youtube.com/embed/XCw77HUloN8?controls=0&autoplay=1" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>            <MetaData>
+          
+              {
+                watchTrailer ? (
+                  <iframe width="560" height="315" src="https://www.youtube.com/embed/XCw77HUloN8?controls=0&autoplay=1" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>        
+                ) : (
+              <img src={ imgData && imgData} alt="" /> 
+                )
+                }
+          <MetaData>
               <TitleName>{apiData.original_title||apiData.name}</TitleName>
               <MovieDis>
                 {apiData && apiData.runtime || apiData.episode_run_time   } min &#8226;
@@ -210,7 +216,7 @@ useEffect(() => {
               <TitleDis>
               <ReadMore>
 
-                {apiData.overview}
+                {apiData.overview}  
                 
               </ReadMore>
                 </TitleDis>
