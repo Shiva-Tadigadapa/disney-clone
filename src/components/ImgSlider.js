@@ -66,7 +66,7 @@ const ImgSlider = (props) => {
             <h1 className="text-[40px] max-[480px]:hidden text-white/70 tracking-[2px] mt-3">
               Attack on taitan
             </h1>
-            <img className="w-[100px] ml-2 h-[100px]" src="https://image.tmdb.org/t/p/original/v5BvSzsYnFjoSesXHL3nR4er6kD.svg"/>
+            <img className="w-[70px] ml-2 h-[70px]" src="https://image.tmdb.org/t/p/original/v5BvSzsYnFjoSesXHL3nR4er6kD.svg"/>
             </div>
             <p className="max-[480px]:hidden text-[18px] text-white/60 mt-1"> 123min &#8226; horror | comedy |  mystery | 2023 &#8226; en &#8226; 7.3&#9733;</p>
             <p className="max-[480px]:hidden w-[60%] text-[16px] text-white/40 tracking-[1.3px] mt-3">
@@ -81,8 +81,9 @@ const ImgSlider = (props) => {
            </ReadMore>
               </p>
               {watchTrailer ? (
+
                   <div
-                    className=" mt-[30px] pl-[5px] pr-[8px] w-[170px]  
+                    className=" mt-[5px] pl-[5px] pr-[8px] w-[170px]  
                     rounded-md hover:bg-gray-700 bg-gray-800 backdrop-blur-sm flex items-center justify-between h-[50px] cursor-pointer transition-all"
                     onClick={Changestate}
                   >
@@ -108,7 +109,7 @@ const ImgSlider = (props) => {
                 ) : (
                   <div
                     className=" w-[170px] 
-                    mt-[30px] pl-[5px] pr-[8px] hover:bg-gray-700  
+                    mt-[5px] pl-[5px] pr-[8px] hover:bg-gray-700  
                     rounded-md bg-gray-900  flex items-center
                       justify-between h-[50px] cursor-pointer transition-all"
                     onClick={Changestate}
@@ -148,7 +149,7 @@ const ImgSlider = (props) => {
               ></iframe>
             ) : (
               
-              <img className="max-[480px]:h-[195px]" src="https://image.tmdb.org/t/p/original/5iilESGDr44JUO5as6KzejxkvJd.jpg" alt="" />
+              <img className="max-[480px]:h-[145px]  " src="https://image.tmdb.org/t/p/original/5iilESGDr44JUO5as6KzejxkvJd.jpg" alt="" />
 
               )}
         </a>
@@ -162,7 +163,7 @@ const ImgSlider = (props) => {
             <h1 className="text-[40px] max-[480px]:hidden text-white/70 tracking-[2px] mt-3">
               Attack on taitan
             </h1>
-            <img className="w-[100px] ml-2 h-[100px]" src="https://image.tmdb.org/t/p/original/v5BvSzsYnFjoSesXHL3nR4er6kD.svg"/>
+            <img className="w-[70px] ml-2 h-[70px]" src="https://image.tmdb.org/t/p/original/v5BvSzsYnFjoSesXHL3nR4er6kD.svg"/>
             </div>
             <p className="max-[480px]:hidden text-[18px] text-white/60 mt-1"> 123min &#8226; horror | comedy |  mystery | 2023 &#8226; en &#8226; 7.3&#9733;</p>
             <p className="max-[480px]:hidden w-[60%] text-[16px] text-white/40 tracking-[1.3px] mt-3">
@@ -177,8 +178,9 @@ const ImgSlider = (props) => {
            </ReadMore>
               </p>
               {watchTrailer ? (
+
                   <div
-                    className=" mt-[30px] pl-[5px] pr-[8px] w-[170px]  
+                    className=" mt-[5px] pl-[5px] pr-[8px] w-[170px]  
                     rounded-md hover:bg-gray-700 bg-gray-800 backdrop-blur-sm flex items-center justify-between h-[50px] cursor-pointer transition-all"
                     onClick={Changestate}
                   >
@@ -204,7 +206,7 @@ const ImgSlider = (props) => {
                 ) : (
                   <div
                     className=" w-[170px] 
-                    mt-[30px] pl-[5px] pr-[8px] hover:bg-gray-700  
+                    mt-[5px] pl-[5px] pr-[8px] hover:bg-gray-700  
                     rounded-md bg-gray-900  flex items-center
                       justify-between h-[50px] cursor-pointer transition-all"
                     onClick={Changestate}
@@ -244,11 +246,12 @@ const ImgSlider = (props) => {
               ></iframe>
             ) : (
               
-              <img className="max-[480px]:h-[195px]" src="https://image.tmdb.org/t/p/original/5iilESGDr44JUO5as6KzejxkvJd.jpg" alt="" />
+              <img className="max-[480px]:h-[145px]  " src="https://image.tmdb.org/t/p/original/5iilESGDr44JUO5as6KzejxkvJd.jpg" alt="" />
 
               )}
         </a>
       </Wrap >
+
       <Wrap className="">
         <a className="">
           <div className=" absolute  z-[3] ml-[50px] max-[480px]:mt-[10px] mt-[60px]">
@@ -257,7 +260,7 @@ const ImgSlider = (props) => {
             <h1 className="text-[40px] max-[480px]:hidden text-white/70 tracking-[2px] mt-3">
               Attack on taitan
             </h1>
-            <img className="w-[100px] ml-2 h-[100px]" src="https://image.tmdb.org/t/p/original/v5BvSzsYnFjoSesXHL3nR4er6kD.svg"/>
+            <img className="w-[70px] ml-2 h-[70px]" src="https://image.tmdb.org/t/p/original/v5BvSzsYnFjoSesXHL3nR4er6kD.svg"/>
             </div>
             <p className="max-[480px]:hidden text-[18px] text-white/60 mt-1"> 123min &#8226; horror | comedy |  mystery | 2023 &#8226; en &#8226; 7.3&#9733;</p>
             <p className="max-[480px]:hidden w-[60%] text-[16px] text-white/40 tracking-[1.3px] mt-3">
@@ -272,8 +275,9 @@ const ImgSlider = (props) => {
            </ReadMore>
               </p>
               {watchTrailer ? (
+
                   <div
-                    className=" mt-[30px] pl-[5px] pr-[8px] w-[170px]  
+                    className=" mt-[5px] pl-[5px] pr-[8px] w-[170px]  
                     rounded-md hover:bg-gray-700 bg-gray-800 backdrop-blur-sm flex items-center justify-between h-[50px] cursor-pointer transition-all"
                     onClick={Changestate}
                   >
@@ -299,7 +303,7 @@ const ImgSlider = (props) => {
                 ) : (
                   <div
                     className=" w-[170px] 
-                    mt-[30px] pl-[5px] pr-[8px] hover:bg-gray-700  
+                    mt-[5px] pl-[5px] pr-[8px] hover:bg-gray-700  
                     rounded-md bg-gray-900  flex items-center
                       justify-between h-[50px] cursor-pointer transition-all"
                     onClick={Changestate}
@@ -339,11 +343,12 @@ const ImgSlider = (props) => {
               ></iframe>
             ) : (
               
-              <img className="max-[480px]:h-[195px]" src="https://image.tmdb.org/t/p/original/5iilESGDr44JUO5as6KzejxkvJd.jpg" alt="" />
+              <img className="max-[480px]:h-[145px]  " src="https://image.tmdb.org/t/p/original/5iilESGDr44JUO5as6KzejxkvJd.jpg" alt="" />
 
               )}
         </a>
       </Wrap >
+
       <Wrap className="">
         <a className="">
           <div className=" absolute  z-[3] ml-[50px] max-[480px]:mt-[10px] mt-[60px]">
@@ -352,7 +357,7 @@ const ImgSlider = (props) => {
             <h1 className="text-[40px] max-[480px]:hidden text-white/70 tracking-[2px] mt-3">
               Attack on taitan
             </h1>
-            <img className="w-[100px] ml-2 h-[100px]" src="https://image.tmdb.org/t/p/original/v5BvSzsYnFjoSesXHL3nR4er6kD.svg"/>
+            <img className="w-[70px] ml-2 h-[70px]" src="https://image.tmdb.org/t/p/original/v5BvSzsYnFjoSesXHL3nR4er6kD.svg"/>
             </div>
             <p className="max-[480px]:hidden text-[18px] text-white/60 mt-1"> 123min &#8226; horror | comedy |  mystery | 2023 &#8226; en &#8226; 7.3&#9733;</p>
             <p className="max-[480px]:hidden w-[60%] text-[16px] text-white/40 tracking-[1.3px] mt-3">
@@ -367,8 +372,9 @@ const ImgSlider = (props) => {
            </ReadMore>
               </p>
               {watchTrailer ? (
+
                   <div
-                    className=" mt-[30px] pl-[5px] pr-[8px] w-[170px]  
+                    className=" mt-[5px] pl-[5px] pr-[8px] w-[170px]  
                     rounded-md hover:bg-gray-700 bg-gray-800 backdrop-blur-sm flex items-center justify-between h-[50px] cursor-pointer transition-all"
                     onClick={Changestate}
                   >
@@ -394,7 +400,7 @@ const ImgSlider = (props) => {
                 ) : (
                   <div
                     className=" w-[170px] 
-                    mt-[30px] pl-[5px] pr-[8px] hover:bg-gray-700  
+                    mt-[5px] pl-[5px] pr-[8px] hover:bg-gray-700  
                     rounded-md bg-gray-900  flex items-center
                       justify-between h-[50px] cursor-pointer transition-all"
                     onClick={Changestate}
@@ -434,14 +440,13 @@ const ImgSlider = (props) => {
               ></iframe>
             ) : (
               
-              <img className="max-[480px]:h-[195px]" src="https://image.tmdb.org/t/p/original/5iilESGDr44JUO5as6KzejxkvJd.jpg" alt="" />
+              <img className="max-[480px]:h-[145px]  " src="https://image.tmdb.org/t/p/original/5iilESGDr44JUO5as6KzejxkvJd.jpg" alt="" />
 
               )}
         </a>
       </Wrap >
+
       
-     
-     
      
     </Carousel>
   );
@@ -497,7 +502,8 @@ const Wrap = styled.div`
         padding: 4px;
         @media (max-width: 480px) {
           // display: none;
-          height: 200px;
+          height: 150px;
+          
         }
         &::before {
           content: "";
@@ -514,7 +520,7 @@ const Wrap = styled.div`
           opacity: 1;
           @media (max-width: 480px) {
             // display: none;
-          box-shadow: 180px 76px 128px #070f1a inset;      
+          box-shadow: 250px 76px 128px #070f1a inset;      
             width: 101%;
           }
         }
@@ -527,7 +533,9 @@ const Wrap = styled.div`
             @media (max-width: 480px) {
               // display: none;
               // height: 100%;
-              object-fit: cover;
+              margin-left: 67px;
+              // object-fit: contain;
+              object-fit: contain;
             }
         }
 
