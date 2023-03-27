@@ -404,22 +404,22 @@ const NewDetail = () => {
 
       {/* <SeasonDetail /> */}
 
-      <CastContainer className="hidden">
+      <CastContainer className="max-[480px]:mt-[400px]">
         <CastDetail>
           {castData &&
             castData.map((cast) => (
               <CastHolder>
-                <CastImg>
+                <CastImg className="max-[480px]:w-[100px] max-[480px]:h-[100px]">
                   <img
                     src={"https://image.tmdb.org/t/p/w500" + cast.profile_path}
                     alt=""
                   />
                 </CastImg>
-                <CastName>
-                  <p style={{ fontSize: "18px", letterSpacing: "0.1px" }}>
+                <CastName className="flex flex-col items-center justify-center m-0">
+                  <p className="max-[480px]:text-[15px]"style={{ fontSize: "18px", letterSpacing: "0.1px" }}>
                     {cast.name}
                   </p>
-                  <p
+                  <p className="max-[480px]:text-[10px]"
                     style={{
                       margin: "0",
                       color: "gray",
@@ -624,6 +624,7 @@ const CastContainer = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
+  
 `;
 
 const CastDetail = styled.div`
