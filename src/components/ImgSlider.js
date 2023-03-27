@@ -543,7 +543,9 @@ const Wrap = styled.div`
         padding: 0;
         border: 4px solid gray;
         transition-duration:300ms;
-
+        @media (max-width: 480px) {
+          border:transparent;
+        }
     }
     }
 
