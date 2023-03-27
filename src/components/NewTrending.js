@@ -31,6 +31,33 @@ const NewTrending = (props) => {
     slidesToShow: 4,
     slidesToScroll: 1,
     autoplay: true,
+    responsive: [
+      {
+        breakpoint: 1024,
+        settings: {
+          slidesToShow: 3,
+          slidesToScroll: 1,
+          infinite: true,
+          // dots: true,
+        },
+      },
+      {
+        breakpoint: 600,
+        settings: {
+          slidesToShow: 2,
+          slidesToScroll: 1,
+          initialSlide: 2,
+        },
+      },
+      {
+        breakpoint: 480,
+        settings: {
+          slidesToShow: 2,
+          slidesToScroll: 2,
+        },
+      },
+    ],
+
   };
 
   //change the color of the title when set today is true
@@ -101,8 +128,8 @@ const NewTrending = (props) => {
                 <img src={ApiMovie.image} alt={ApiMovie.title} />
                 <HoverData>
                   <TitData>
-                    <SubTitle>{ApiMovie.name}</SubTitle>
-                    <Description>
+                    <SubTitle className="max-[480px]:text-[20px]">{ApiMovie.name}</SubTitle>
+                    <Description className="max-[480px]:text-[15px]">
                       {ApiMovie.FAD} &nbsp; &nbsp; &nbsp; {ApiMovie.rating}
                       <span style={{ fontSize: "20px" }}>&#9733;</span>
                     </Description>
