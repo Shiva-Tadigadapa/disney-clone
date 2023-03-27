@@ -216,14 +216,83 @@ const NewDetail = () => {
 
   return (
     <>
-      <Container className="max-[480px]:p-10">
+      <Container className="">
         {/* <iframe width="560" height="315" src="https://www.youtube.com/embed/Z1Pn3CqXCTs" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe> */}
-        <Content className="max-[480px]:mt-[5px] max-[480px]:ml-[-10px] ">
-          <Background className="max-[480px]:w-[100%]">
+        <div className="hidden max-[480px]:block  bg-zinc-900 w-[105%] ">
+        {watchTrailer ? (
+              // <iframe width="560" height="315" src={`https://www.youtube.com/embed/?controls=0&autoplay=1`} title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+              <iframe
+              width="560"
+                height="246px"
+                src={`https://www.youtube.com/embed/${watch}?controls=0&autoplay=1`}
+                title="YouTube video player"
+                frameborder="0"
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                allowfullscreen
+              ></iframe>
+            ) : (
+              
+              <img
+              src="https://image.tmdb.org/t/p/original/8Y43POKjjKDGI9MH89NW0NAzzp8.jpg"
+              alt=""
+              className=""
+              />
+              )}
+          <div className=" h-[150px] flex">
+            <img
+              className="h-[100%]"
+              src="https://image.tmdb.org/t/p/original/vZloFAK7NmvMGKE7VkF5UHaz0I.jpg"
+            />
+            <div className="ml-[20px] mt-[10px]">
+
+            <div className="">
+            <h1 className="text-gray-300 tracking-[2px] text-lg">Attack on Taitan</h1>
+            <h1 className="text-white/50 text-[14px] tracking-[1.7px]">100min &#8226;  2021 &#8226; 7.9 &#9733;</h1>
+            <h1 className="text-[13px] text-white/40 tracking-[2px]"> Action | comedy </h1>
+            </div>
+            
+
+            <div className="flex  items-center  justify-between">
+
+            <div
+              className="w-[50px] pl-[5px] pr-[8px]  rounded-md hover:bg-gray-700
+              bg-gray-800 backdrop-blur-sm flex items-center justify-center h-[30px] cursor-pointer transition-all"
+              onClick={Changestate}
+              >
+              <HiPause
+                className="   transition-all "
+                style={{
+                  fontSize: "25px",
+                  /* for responsive rm:the margintop and decrease the fontsize*/
+                }}
+                />
+               
+            </div>
+            <div
+              className="w-[50px] pl-[5px] pr-[8px]  rounded-md hover:bg-gray-700
+              bg-gray-800 backdrop-blur-sm flex items-center justify-center h-[30px] cursor-pointer transition-all"
+              onClick={Changestate}
+              >
+            <MdAddCircleOutline
+                    onClick={() => handleFir()}
+                    className=""
+                    style={{
+                      fontSize: "25px",
+                      /* for responsive rm:the margintop and decrease the fontsize*/
+                    }}
+                  />
+            </div>
+            </div>
+            </div>
+          </div>
+        </div>
+
+        <Content className="hidden lg:block">
+          <Background className="">
             {watchTrailer ? (
               // <iframe width="560" height="315" src={`https://www.youtube.com/embed/?controls=0&autoplay=1`} title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
               <iframe
-                width="560"
+              width="560"
                 height="315"
                 src={`https://www.youtube.com/embed/${watch}?controls=0&autoplay=1`}
                 title="YouTube video player"
@@ -335,7 +404,7 @@ const NewDetail = () => {
 
       {/* <SeasonDetail /> */}
 
-      <CastContainer>
+      <CastContainer className="hidden">
         <CastDetail>
           {castData &&
             castData.map((cast) => (
@@ -372,7 +441,6 @@ const NewDetail = () => {
 export default NewDetail;
 
 const Container = styled.div`
-  
   &:before {
     background: url("/images/images/home-background.png") center center / cover
       no-repeat fixed;
