@@ -411,7 +411,7 @@ const NewDetail = () => {
 
       {/* <SeasonDetail /> */}
 
-      <CastContainer className="mt-[370px] max-[480px]:mt-[160px]">
+      <CastContainer className="mt-[590px] max-[480px]:mt-[450px]">
         <CastDetail>
           {castData &&
             castData.map((cast) => (
