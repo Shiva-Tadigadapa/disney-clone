@@ -10,7 +10,7 @@ import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import db from "../firebase";
-import 'firebase/firestore';
+import "firebase/firestore";
 import firebase from "firebase/compat/app";
 // import { SelectAllResults, SelectImages } from "../features/APISlice/ApiSlice";
 import { SelectImgLinks } from "../features/APISlice/ApiSlice";
@@ -21,10 +21,12 @@ import { GrAdd } from "react-icons/gr";
 import { SelectAllResults } from "../features/APISlice/ApiSlice";
 import MdetailRec from "./MdetailRec";
 import SeasonDetail from "./SeasonDetail";
-import {auth , provider ,wl} from "../firebase"
+import { auth, provider, wl } from "../firebase";
 import { Link } from "react-router-dom";
-
-
+import { AiOutlinePauseCircle } from "react-icons/ai";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import { HiPause } from "react-icons/hi";
 
 const NewDetail = () => {
   let wids = [];
@@ -40,7 +42,7 @@ const NewDetail = () => {
     };
     return (
       <p className="text">
-        {isReadMore ? text && text.slice(0, 327) :text && text.slice(0, 427)}
+        {isReadMore ? text && text.slice(0, 327) : text && text.slice(0, 427)}
         <span
           onClick={toggleReadMore}
           className="read-or-hide text-gray-100 cursor-pointer"
@@ -61,68 +63,83 @@ const NewDetail = () => {
   const [watch, setwatchData] = useState("");
 
   const Changestate = () => {
-
-   watchTrailer ? setWatchTrailer(false) : setWatchTrailer(true);
+    watchTrailer ? setWatchTrailer(false) : setWatchTrailer(true);
   };
 
   let things;
-  const handleFir = () =>{  auth.onAuthStateChanged(async (user)=>{
-            if(user){
-               things =db.collection('watchlist2/'+user.uid+'/watchlist');
+  const handleFir = () => {
+    auth.onAuthStateChanged(async (user) => {
+      if (user) {
+        things = db.collection("watchlist2/" + user.uid + "/watchlist");
+        const watchlistRef = firebase
+          .firestore()
+          .collection("watchlist2/" + user.uid + "/watchlist");
+        const querySnapshot2 = await watchlistRef.where("id", "==", id);
+        const querySnapshot3 = await querySnapshot2
+          .get()
+          .then((querySnapshot) => {
+            console.log(querySnapshot.empty);
+            if (querySnapshot.empty) {
+              things.add({
+                uid: user.uid,
+                id: id,
+                type: type,
+              });
+              toast.success(`Added To WatchList ${id}`);
+              return;
+            } else {
+              querySnapshot.forEach((doc) => {
+                console.log(doc.data().id);
+                if (doc.data().id === id) {
+                  toast.info("Already Added To WatchList");
+                  return;
+                } else {
                   things.add({
-                    uid : user.uid,
-                    id : id,
-                    type:type,
-                  })
+                    uid: user.uid,
+                    id: id,
+                    type: type,
+                  });
+                  toast.success("Added To WatchList, message ", { id });
+                  return;
+                }
+              });
             }
-  
-    })
-  
-  }
+          });
+      }
+    });
+  };
 
   const [currentUser, setCurrentUser] = useState(null);
-// const [wids, setWids] = useState([]);
+  // const [wids, setWids] = useState([]);
 
-useEffect(() => {
-  async function fetchWids() {
-    const watchlistRef = firebase.firestore().collection('watchlist2/'+currentUser+'/watchlist');
+  useEffect(() => {
+    async function fetchWids() {
+      const watchlistRef = firebase
+        .firestore()
+        .collection("watchlist2/" + currentUser + "/watchlist");
       console.log(currentUser);
-    // if (currentUser && currentUser) {
+      // if (currentUser && currentUser) {
 
       const querySnapshot = await watchlistRef.get();
       // console.log(querySnapshot._delegate._snapshot.docChanges[0].doc.data.value.mapValue.fields.id.stringValue);
-      // console.log(querySnapshot._delegate._snapshot.docChanges[0].doc.data.value.mapValue.fields.type.stringValue);
-      // console.log(querySnapshot._delegate._snapshot.docChanges[0].doc.data.value.mapValue.fields.uid.stringValue);
-      // console.log(querySnapshot._delegate._snapshot.docChanges);
-      querySnapshot._delegate._snapshot.docChanges.forEach(doc => {
+      querySnapshot._delegate._snapshot.docChanges.forEach((doc) => {
         wids.push([
           doc.doc.data.value.mapValue.fields.id.stringValue,
           doc.doc.data.value.mapValue.fields.type.stringValue,
-          doc.doc.data.value.mapValue.fields.uid.stringValue
+          doc.doc.data.value.mapValue.fields.uid.stringValue,
         ]);
       });
-      // setWids(wids);
-      // setwatchData(wids);
-      console.log(wids);
-      // console.log(watch);
-     
+    }
 
-    // } else {
-      // console.log('No user is currently logged in.');
-    // }
-  }
+    fetchWids();
+  }, [currentUser]);
 
-  fetchWids();
-}, [currentUser]);
-
-useEffect(() => {
-  const unsubscribe = firebase.auth().onAuthStateChanged(user => {
-    // console.log(user.multiFactor.user.uid);
-    setCurrentUser(user.multiFactor.user.uid);
-    // console.log(currentUser);
-  });
-  return unsubscribe;
-}, []);
+  useEffect(() => {
+    const unsubscribe = firebase.auth().onAuthStateChanged((user) => {
+      setCurrentUser(user.multiFactor.user.uid);
+    });
+    return unsubscribe;
+  }, []);
 
   const sliceData = (data) => {
     let arr = [];
@@ -134,14 +151,9 @@ useEffect(() => {
     return arr;
   };
 
-  
   let logo_img = useSelector(SelectImgLinks);
-  // console.log(detailData3.name);
   let ApiImg = useSelector(SelectAllResults);
   let backImgs, real;
-
-
-
 
   const getCastDetails = async () => {
     const Castdata = await fetch(
@@ -154,22 +166,35 @@ useEffect(() => {
   useEffect(() => {
     getCastDetails();
     // console.log(CastDetail);
-  }, []);
+  }, [id]);
 
-  let url, url2;
+  let url, url2, url3;
   const GetMovieDetails = async () => {
     if (type == "movie") {
       url = `https://api.themoviedb.org/3/movie/${id}?api_key=c5ad2827c51f36bcbad41dc821d6d7c1`;
       url2 = `https://api.themoviedb.org/3/movie/${id}/images?api_key=c5ad2827c51f36bcbad41dc821d6d7c1`;
+      url3 = `https://api.themoviedb.org/3/movie/${id}/videos?api_key=c5ad2827c51f36bcbad41dc821d6d7c1`;
     } else {
       url = `https://api.themoviedb.org/3/tv/${id}?api_key=c5ad2827c51f36bcbad41dc821d6d7c1`;
       url2 = `https://api.themoviedb.org/3/tv/${id}/images?api_key=c5ad2827c51f36bcbad41dc821d6d7c1`;
+      url3 = `https://api.themoviedb.org/3/tv/${id}/videos?api_key=c5ad2827c51f36bcbad41dc821d6d7c1`;
     }
     const response = await fetch(url);
     const response2 = await fetch(url2);
+    const response3 = await fetch(url3);
     const data = await response.json();
     const data2 = await response2.json();
-    console.log(data);
+    const data3 = await response3.json();
+    console.log(data3);
+    let v11;
+    const v1 = data3.results.map((item) => {
+      if (item.type == "Trailer") {
+        v11 = item.key;
+        setwatchData(v11);
+        return item.key;
+      }
+    });
+    // console.log(v11);
     // console.log(data.backdrop_path);
     // console.log(data2);
     setApiData(data);
@@ -187,61 +212,101 @@ useEffect(() => {
   };
   useEffect(() => {
     GetMovieDetails();
-  }, []);
+  }, [id]);
 
   return (
     <>
-      <Container>
-      {/* <iframe width="560" height="315" src="https://www.youtube.com/embed/Z1Pn3CqXCTs" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe> */}
-        <Content>
-          <Background>
-          
-              {
-                watchTrailer ? (
-                  <iframe width="560" height="315" src="https://www.youtube.com/embed/XCw77HUloN8?controls=0&autoplay=1" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>        
-                ) : (
-              <img src={ imgData && imgData} alt="" /> 
-                )
-                }
-          <MetaData>
-              <TitleName>{apiData.original_title||apiData.name}</TitleName>
+      <Container className="max-[480px]:p-10">
+        {/* <iframe width="560" height="315" src="https://www.youtube.com/embed/Z1Pn3CqXCTs" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe> */}
+        <Content className="max-[480px]:mt-[5px] max-[480px]:ml-[-10px] ">
+          <Background className="max-[480px]:w-[100%]">
+            {watchTrailer ? (
+              // <iframe width="560" height="315" src={`https://www.youtube.com/embed/?controls=0&autoplay=1`} title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+              <iframe
+                width="560"
+                height="315"
+                src={`https://www.youtube.com/embed/${watch}?controls=0&autoplay=1`}
+                title="YouTube video player"
+                frameborder="0"
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                allowfullscreen
+              ></iframe>
+            ) : (
+              <img src={imgData && imgData} alt="" />
+            )}
+            <MetaData>
+              <TitleName>{apiData.original_title || apiData.name}</TitleName>
               <MovieDis>
-                {apiData && apiData.runtime || apiData.episode_run_time   } min &#8226;
+                {(apiData && apiData.runtime) || apiData.episode_run_time} min
+                &#8226;
                 {apiData &&
                   apiData.genres.map((genre) => (
                     <span key={genre.id}>{genre.name} | </span>
-                    ))}
-                {apiData && sliceData(apiData.release_date||apiData.first_air_date)} &#8226; {apiData && apiData.original_language} &#8226; {apiData && apiData.vote_average.toFixed(1)}&#9733;
+                  ))}
+                {apiData &&
+                  sliceData(
+                    apiData.release_date || apiData.first_air_date
+                  )}{" "}
+                &#8226; {apiData && apiData.original_language} &#8226;{" "}
+                {apiData && apiData.vote_average.toFixed(1)}&#9733;
               </MovieDis>
               <TitleDis>
-              <ReadMore>
+                <ReadMore>{apiData.overview}</ReadMore>
+              </TitleDis>
+              <WatchContainer>
+                {watchTrailer ? (
+                  <div
+                    className=" mt-[30px] pl-[5px] pr-[8px]  rounded-md hover:bg-gray-700 bg-gray-800 backdrop-blur-sm flex items-center justify-center h-[50px] cursor-pointer transition-all"
+                    onClick={Changestate}
+                  >
+                    <HiPause
+                      className="   transition-all "
+                      style={{
+                        fontSize: "38px",
+                        /* for responsive rm:the margintop and decrease the fontsize*/
+                      }}
+                    />
 
-                {apiData.overview}  
-                
-              </ReadMore>
-                </TitleDis>
-              <WatchContainer
-                onClick={Changestate}
-              >
-                <FaPlay
-                  style={{
-                    fontSize: "28px",
-                    marginTop:
-                      "40px" /* for responsive rm:the margintop and decrease the fontsize*/,
-                  }}
-                />
-                <p
-                  style={{
-                    fontSize: "17px",
-                    marginTop: "40px",
-                    marginLeft: "16px",
-                    /* for responsive rm:the margin-top and margin-left and decrease the fontsize and mak margin:0*/
-                  }}
-                >
-                  Watch Trailer
-                </p>
+                    <p
+                      style={{
+                        fontSize: "17px",
+
+                        marginLeft: "10px",
+                        /* for responsive rm:the margin-top and margin-left and decrease the fontsize and mak margin:0*/
+                      }}
+                    >
+                      Watch Trailer
+                    </p>
+                  </div>
+                ) : (
+                  <div
+                    className="  mt-[30px] pl-[5px] pr-[8px] hover:bg-gray-700  rounded-md bg-gray-900  flex items-center justify-center h-[50px] cursor-pointer transition-all"
+                    onClick={Changestate}
+                  >
+                    <FaPlay
+                      className="   transition-all "
+                      style={{
+                        fontSize: "28px",
+                        /* for responsive rm:the margintop and decrease the fontsize*/
+                      }}
+                    />
+
+                    <p
+                      style={{
+                        fontSize: "17px",
+
+                        marginLeft: "20px",
+                        /* for responsive rm:the margin-top and margin-left and decrease the fontsize and mak margin:0*/
+                      }}
+                    >
+                      Watch Trailer
+                    </p>
+                  </div>
+                )}
+
                 <ShareContainer>
-                  <MdAddCircleOutline   onClick={()=>handleFir()}
+                  <MdAddCircleOutline
+                    onClick={() => handleFir()}
                     className="hover:transform hover:scale-110 hover:animate-pulse"
                     style={{
                       fontSize: "40px",
@@ -265,13 +330,11 @@ useEffect(() => {
           </Background>
         </Content>
       </Container>
-    {
-      type == "movie" ? <MdetailRec /> : <SeasonDetail />
-    }
+      {type == "movie" ? <MdetailRec /> : <SeasonDetail />}
       {/* <MdetailRec /> */}
 
       {/* <SeasonDetail /> */}
-    
+
       <CastContainer>
         <CastDetail>
           {castData &&
@@ -309,16 +372,7 @@ useEffect(() => {
 export default NewDetail;
 
 const Container = styled.div`
-  // position: relative;
-  // min-height: calc(100vh - 250px);
-  // padding: 0px calc(3.5vw + 5px);
-  // overflow: hidden;
-  // display: block;
-  // top: 72px;
-  // display: flex;
-  // align-items: center;
-  // justify-content: center;
-  // z-index: 1;
+  
   &:before {
     background: url("/images/images/home-background.png") center center / cover
       no-repeat fixed;
@@ -364,7 +418,7 @@ const Background = styled.div`
     rgb(0 0 0 / 73%) 0px 15px 25px -36px;
   height: 65%;
   width: 90%;
-  cursor: pointer;
+
   border-radius: 10px;
   overflow: hidden;
   position: absolute;
@@ -415,7 +469,7 @@ const Background = styled.div`
     //     exsisting margin;
     //   }
   }
-  iframe{
+  iframe {
     inset: 0px;
     // display: block;
     // height: 100%;

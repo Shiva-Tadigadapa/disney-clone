@@ -10,32 +10,32 @@ import {
   setSignOutState,
 } from "../features/users/userSlice";
 import { auth, provider } from "../firebase";
- 
-import   {BiSearchAlt2} from "react-icons/bi"
+
+import { BiSearchAlt2 } from "react-icons/bi";
 
 const Header = (props) => {
-  const [isActive, setIsActive]= useState(false);
-  const [search, setSearch]= useState(null);
+  const [isActive, setIsActive] = useState(false);
+  const [search, setSearch] = useState(null);
   const dispatch = useDispatch();
   const history = useNavigate();
   const userName = useSelector(SelectUserName);
   const userPhoto = useSelector(SelectUserPhoto);
 
-  function inputVal(e){
+  function inputVal(e) {
     setSearch(e.target.value);
   }
-  
-  function onSubmitHandler(e){
-    if(e.key==="Enter"){
+
+  function onSubmitHandler(e) {
+    if (e.key === "Enter") {
       e.preventDefault();
-      history(`/search/${search}`)
+      history(`/search/${search}`);
       console.log(search);
     }
   }
 
   useEffect(() => {
     auth.onAuthStateChanged(async (user) => {
-      if (user) { 
+      if (user) {
         setUser(user);
         // history("/home");
       }
@@ -43,23 +43,27 @@ const Header = (props) => {
   }, [userName]);
 
   const handelAuth = () => {
-  if(!userName){
-     auth
-    .signInWithPopup(provider)
-    .then((result) => {
-      // console.log(result);
-      setUser(result.user);
-    })
-    .catch((error) => {
-      alert(error.message);
-    });
-  }
-  else if(userName){
-    auth.signOut().then(()=>{
-      dispatch(setSignOutState());
-      history("/");
-    }).catch((error)=>{alert(error.message)})
-  }
+    if (!userName) {
+      auth
+        .signInWithPopup(provider)
+        .then((result) => {
+          // console.log(result);
+          setUser(result.user);
+        })
+        .catch((error) => {
+          alert(error.message);
+        });
+    } else if (userName) {
+      auth
+        .signOut()
+        .then(() => {
+          dispatch(setSignOutState());
+          history("/");
+        })
+        .catch((error) => {
+          alert(error.message);
+        });
+    }
   };
   const setUser = (user) => {
     dispatch(
@@ -70,90 +74,111 @@ const Header = (props) => {
       })
     );
   };
-  const handelClick=()=>{
+  const handelClick = () => {
     setIsActive(!isActive);
-    
-  }
-  
+  };
 
   return (
-    <Nav className=" backdrop-blur-[18px]  bg-[#090b13]/60">
+    <Nav className=" backdrop-blur-[18px]  bg-[#090b13]/60 ">
       <Logo>
-        <img src="/images/images/logo.svg" alt="Disney+" />
+        <img className="sm:w-80" src="/images/images/logo.svg" alt="Disney+" />
       </Logo>
-      {
-        !userName ? (
+      {!userName ? (
         <Login onClick={handelAuth}>Login</Login>
-        ) : (
+      ) : (
         <>
-      <NavMenu className="  ">
-        <a href="/home">
-          <img src="/images/images/home-icon.svg" alt="HOME" />
-          <span>HOME</span>
-        </a>
-        <a href="/search">
-          <img src="/images/images/search-icon.svg" alt="HOME" />
-          <span>SEARCH</span>
-        </a>
-        <a href="/watchList">
-          <img src="/images/images/watchlist-icon.svg" alt="HOME" />
-          <span>WATCHLIST</span>
-        </a>
-        <a href="/">
-          <img src="/images/images/original-icon.svg" alt="HOME" />
-          <span>ORIGINALS</span>
-        </a>
-        <a href="/">
-          <img src="/images/images/movie-icon.svg" alt="HOME" />
-          <span>MOVIES</span>
-        </a>
-        <a href="/">
-          <img src="/images/images/series-icon.svg" alt="HOME" />
-          <span>SERIES</span>
-        </a>
-      </NavMenu>
-        {
-          isActive ? <SearchBar  style={{dislpay:"block",width:"280px",transition: "all 10.5s ease-in-out",animation: "fadeIn 2.5s" }}><input onChange={inputVal} onKeyPress={onSubmitHandler} type="text" placeholder="Search Movie"  /></SearchBar>: <SearchBar style={{display:"none",width:"0"}}><input type="text" placeholder="Search Movie"  /></SearchBar>
-        }
-        <BiSearchAlt2 style={{ fontSize:"24px", color:"gray",margin:"10px 80px 0 0",cursor:"pointer" ,}} onClick={handelClick} />
-      <SignOut>
-          <U>{userName}</U>
-      <UserImg src={userPhoto} alt="userName" />
-      <DropDown>
-         <span onClick={handelAuth}>Sign Out</span>
-      </DropDown>
-      </SignOut>
-      </>
+          <NavMenu className="  max-[480px]:!hidden  ">
+            <a href="/home">
+              <img src="/images/images/home-icon.svg" alt="HOME" />
+              <span>HOME</span>
+            </a>
+            <a href="/search">
+              <img src="/images/images/search-icon.svg" alt="HOME" />
+              <span>SEARCH</span>
+            </a>
+            <a href="/watchList">
+              <img src="/images/images/watchlist-icon.svg" alt="HOME" />
+              <span>WATCHLIST</span>
+            </a>
+            <a href="/">
+              <img src="/images/images/original-icon.svg" alt="HOME" />
+              <span>ORIGINALS</span>
+            </a>
+            <a href="/">
+              <img src="/images/images/movie-icon.svg" alt="HOME" />
+              <span>MOVIES</span>
+            </a>
+            <a href="/">
+              <img src="/images/images/series-icon.svg" alt="HOME" />
+              <span>SERIES</span>
+            </a>
+          </NavMenu>
+          {isActive ? (
+            <SearchBar className="  max-[480px]:!hidden  "
+              style={{
+                dislpay: "block",
+                width: "280px",
+                transition: "all 10.5s ease-in-out",
+                animation: "fadeIn 2.5s",
+              }}
+            >
+              <input
+                onChange={inputVal}
+                onKeyPress={onSubmitHandler}
+                type="text"
+                placeholder="Search Movie"
+              />
+            </SearchBar>
+          ) : (
+            <SearchBar  className="  max-[480px]:!hidden  " style={{ display: "none", width: "0" }}>
+              <input type="text" placeholder="Search Movie" />
+            </SearchBar>
+          )}
+          <BiSearchAlt2 className="  max-[480px]:!hidden  "
+            style={{
+              fontSize: "24px",
+              color: "gray",
+              margin: "10px 80px 0 0",
+              cursor: "pointer",
+            }}
+            onClick={handelClick}
+          />
+          <SignOut>
+            <U>{userName}</U>
+            <UserImg src={userPhoto} alt="userName" />
+            <DropDown>
+              <span onClick={handelAuth}>Sign Out</span>
+            </DropDown>
+          </SignOut>
+        </>
       )}
     </Nav>
   );
-}
+};
 
 const SearchBar = styled.div`
-
-& ${BiSearchAlt2}:hover {
+  & ${BiSearchAlt2}:hover {
+    color: white;
+  }
   color: white;
- }
-color: white;
   display: flex;
   align-items: center;
   height: 35px;
-  // width: 0;  
+  // width: 0;
   // border-radius: 5px;
   // background-color: #f9f9f9;
   padding: 0 10px;
   margin-left: 25px;
   margin-right: 25px;
   border-bottom: 0.5px solid gray;
-  background-color: transparent;  
+  background-color: transparent;
   padding: 10px 10px;
   // display: none;
   margin-right: 50px;
-  
-  
+
   margin: 0;
   input {
-    &:hover{
+    &:hover {
       color: white;
     }
     caret-color: gray;
@@ -172,13 +197,9 @@ color: white;
     }
   }
 
-    // @media (max-width: 768px) {
-    //   display: none;
-    // }
-
-
-
-  
+  // @media (max-width: 768px) {
+  //   display: none;
+  // }
 `;
 
 const Nav = styled.nav`
@@ -198,8 +219,6 @@ const Nav = styled.nav`
   padding: 0 36px;
   letter-spacing: 16px;
   z-index: 4;
-  
-  
 `;
 
 const Logo = styled.a`
@@ -225,7 +244,7 @@ const NavMenu = styled.div`
   padding: 0;
   margin-right: auto;
   margin-left: 25px;
-  z-index: 4; 
+  z-index: 4;
 
   a {
     text-decoration: none;
@@ -300,62 +319,59 @@ const Login = styled.a`
 
 `;
 const UserImg = styled.img`
-height: 100%;
-
+  height: 100%;
 `;
 const DropDown = styled.div`
-position: absolute;
-top: 50px;
-left: -30px;
-text-align: center;
-right: 0px;
-background: rgb(19, 19, 19);
-border: 1px solid rgba(151, 151, 151, 0.34);
-border-radius: 4px;
-box-shadow: rgb(0 0 0 / 50%) 0px 0px 18px 0px;
-padding: 10px;
-font-size: 14px;
-letter-spacing: 3px;
-width: 105px;
+  position: absolute;
+  top: 50px;
+  left: -30px;
+  text-align: center;
+  right: 0px;
+  background: rgb(19, 19, 19);
+  border: 1px solid rgba(151, 151, 151, 0.34);
+  border-radius: 4px;
+  box-shadow: rgb(0 0 0 / 50%) 0px 0px 18px 0px;
+  padding: 10px;
+  font-size: 14px;
+  letter-spacing: 3px;
+  width: 105px;
 
-opacity: 0;
+  opacity: 0;
 `;
-const SignOut=styled.div`
-text-align: center;
-position: relative;
-margin-right: 40px;
-height: 48px;
-width: 48px;
-display: flex;
-cursor: pointer;
-align-items: center;
-justify-content: center;
-${UserImg}{
+const SignOut = styled.div`
+  text-align: center;
+  position: relative;
+  margin-right: 40px;
+  height: 48px;
+  width: 48px;
+  display: flex;
+  cursor: pointer;
+  align-items: center;
+  justify-content: center;
+  ${UserImg} {
     border-radius: 50%;
     width: 100%;
     height: 100%;
     border: 2px solid #f9f9f9;
-
-}
-&:hover{
-    ${DropDown}{
-        opacity: 1;
-        transition-duration: 1s;
+  }
+  &:hover {
+    ${DropDown} {
+      opacity: 1;
+      transition-duration: 1s;
     }
-}
-
+  }
 `;
 
 const U = styled.p`
-text-transform: uppercase;
-// margin-left: ;
-margin-right: 10px;
-text-align: center;
-color: #f9f9f9;
-font-size: 14px;
-font-weight: 700;
-line-height: 1.3;
-letter-spacing: 2.5px;
+  text-transform: uppercase;
+  // margin-left: ;
+  margin-right: 10px;
+  text-align: center;
+  color: #f9f9f9;
+  font-size: 14px;
+  font-weight: 700;
+  line-height: 1.3;
+  letter-spacing: 2.5px;
 `;
 
 export default Header;

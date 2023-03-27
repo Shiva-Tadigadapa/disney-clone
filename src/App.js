@@ -8,6 +8,8 @@ import './App.css';
 import NewDetail from './components/newDetail';
 import Search from './components/Search';
 import SeasonTvDetails from './components/SeasonTvDetails';
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 function App() {
   return (
     <div className="App"> 
@@ -23,6 +25,18 @@ function App() {
             <Route  path='/detail/:id/:type/Season/:Sno' element={<SeasonTvDetails />} />
         </Routes>
       </Router>
+      <ToastContainer
+position="top-right"
+autoClose={5000}
+hideProgressBar={false}
+newestOnTop={false}
+closeOnClick
+rtl={false}
+pauseOnFocusLoss
+draggable
+pauseOnHover
+theme="dark"
+/>
     </div>
   );
 }
