@@ -222,7 +222,7 @@ const Wrap = styled.div`
     bottom: 0;
     left: 0;
     right: 0;
-    background-color: rgba(0, 0, 0, 0.2);
+    // background-color: rgba(0, 0, 0, 0.2);
     box-shadow: 0px -60px 50px rgba(0, 0, 0, 0.9) inset;
     width: 100%;
     height: 100%;

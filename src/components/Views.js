@@ -2,36 +2,42 @@ import styled from "styled-components";
 
 const Viewers = (props) => {
   return (
-    <Container className="  max-[480px]:flex max-[480px]:w-[100px] max-[480px]:p-0 "  >
-      <Wrap className="max-[480px]:p-10">
+    <Container className=" "  >
+      <Wrap className="">
         <img src="/images/images/viewers-disney.png" alt="" />
-        <video autoPlay={true} loop={true} playsInline={true} muted >
+        <video  className="" autoPlay={true} loop={true} playsInline={true} muted >
           <source src='/videos/videos/1564674844-disney.mp4' type="video/mp4" />
         </video>
       </Wrap>
-      <Wrap className="max-[480px]:p-10">
+      <Wrap className="">
         <img src="/images/images/viewers-pixar.png" alt="" />
         <video autoPlay={true} loop={true} playsInline={true} muted >
           <source src='/videos/videos/1564676714-pixar.mp4' type="video/mp4" />
         </video>
       </Wrap>
-      <Wrap className="max-[480px]:p-10">
+      <Wrap className="">
         <img src="/images/images/viewers-marvel.png" alt="" />
         <video autoPlay={true} loop={true} playsInline={true} muted >
           <source src='/videos/videos/1564676115-marvel.mp4' type="video/mp4" />
         </video>
       </Wrap>
-      <Wrap className="max-[480px]:p-10">
+      <Wrap className="">
         <img src="/images/images/viewers-starwars.png" alt="" />
         <video autoPlay={true} loop={true} playsInline={true} muted >
           <source src='/videos/videos/1608229455-star-wars.mp4' type="video/mp4" />
         </video>
       </Wrap>
-      <Wrap className="max-[480px]:hidden">
+      <Wrap className="">
         <img src="/images/images/viewers-national.png" alt="" />
         <video autoPlay={true} loop={true} playsInline={true} muted >
           <source src='/videos/videos/1564676296-national-geographic.mp4' type="video/mp4" />
         </video>  
+      </Wrap>
+      <Wrap className="lg:hidden sm:block">
+        <img src="/images/images/viewers-pixar.png" alt="" />
+        <video autoPlay={true} loop={true} playsInline={true} muted >
+          <source src='/videos/videos/1564676714-pixar.mp4' type="video/mp4" />
+        </video>
       </Wrap>
     </Container>
   );
@@ -47,7 +53,7 @@ const Container = styled.div`
   gap: 25px;
   grid-template-columns: repeat(5, minmax(0, 1fr));
   @media (max-width: 768px) {
-    grid-template-columns: repeat(1, minmax(0, 1fr));
+    grid-template-columns: repeat(3, minmax(0, 1fr));
   }
 `;
 
