@@ -60,7 +60,7 @@ const ImgSlider = (props) => {
     <Carousel {...settings} >
       <Wrap className="">
         <a className="">
-          <div className=" absolute  z-[3] ml-[50px] mt-[60px]">
+          <div className=" absolute  z-[3] ml-[50px] max-[480px]:mt-[10px] mt-[60px]">
             <div className="flex">
 
             <h1 className="text-[40px] max-[480px]:hidden text-white/70 tracking-[2px] mt-3">
@@ -148,15 +148,15 @@ const ImgSlider = (props) => {
               ></iframe>
             ) : (
               
-              <img className="max-[480px]:h-[250px]" src="https://image.tmdb.org/t/p/original/5iilESGDr44JUO5as6KzejxkvJd.jpg" alt="" />
+              <img className="max-[480px]:h-[195px]" src="https://image.tmdb.org/t/p/original/5iilESGDr44JUO5as6KzejxkvJd.jpg" alt="" />
 
               )}
         </a>
       </Wrap >
-     
+
       <Wrap className="">
         <a className="">
-          <div className=" absolute  z-[3] ml-[50px] mt-[60px]">
+          <div className=" absolute  z-[3] ml-[50px] max-[480px]:mt-[10px] mt-[60px]">
             <div className="flex">
 
             <h1 className="text-[40px] max-[480px]:hidden text-white/70 tracking-[2px] mt-3">
@@ -244,15 +244,14 @@ const ImgSlider = (props) => {
               ></iframe>
             ) : (
               
-              <img className="max-[480px]:h-[250px]" src="https://image.tmdb.org/t/p/original/5iilESGDr44JUO5as6KzejxkvJd.jpg" alt="" />
+              <img className="max-[480px]:h-[195px]" src="https://image.tmdb.org/t/p/original/5iilESGDr44JUO5as6KzejxkvJd.jpg" alt="" />
 
               )}
         </a>
       </Wrap >
-     
       <Wrap className="">
         <a className="">
-          <div className=" absolute  z-[3] ml-[50px] mt-[60px]">
+          <div className=" absolute  z-[3] ml-[50px] max-[480px]:mt-[10px] mt-[60px]">
             <div className="flex">
 
             <h1 className="text-[40px] max-[480px]:hidden text-white/70 tracking-[2px] mt-3">
@@ -340,15 +339,14 @@ const ImgSlider = (props) => {
               ></iframe>
             ) : (
               
-              <img className="max-[480px]:h-[250px]" src="https://image.tmdb.org/t/p/original/5iilESGDr44JUO5as6KzejxkvJd.jpg" alt="" />
+              <img className="max-[480px]:h-[195px]" src="https://image.tmdb.org/t/p/original/5iilESGDr44JUO5as6KzejxkvJd.jpg" alt="" />
 
               )}
         </a>
       </Wrap >
-     
       <Wrap className="">
         <a className="">
-          <div className=" absolute  z-[3] ml-[50px] mt-[60px]">
+          <div className=" absolute  z-[3] ml-[50px] max-[480px]:mt-[10px] mt-[60px]">
             <div className="flex">
 
             <h1 className="text-[40px] max-[480px]:hidden text-white/70 tracking-[2px] mt-3">
@@ -436,11 +434,13 @@ const ImgSlider = (props) => {
               ></iframe>
             ) : (
               
-              <img className="max-[480px]:h-[250px]" src="https://image.tmdb.org/t/p/original/5iilESGDr44JUO5as6KzejxkvJd.jpg" alt="" />
+              <img className="max-[480px]:h-[195px]" src="https://image.tmdb.org/t/p/original/5iilESGDr44JUO5as6KzejxkvJd.jpg" alt="" />
 
               )}
         </a>
       </Wrap >
+      
+     
      
      
     </Carousel>
@@ -487,6 +487,7 @@ const Wrap = styled.div`
     a {
       // background-color: white;
       // width: 100px;
+      // height: 200px;
         border-radius: 5px;
         box-shadow: rgb(0 0 0 / 69%) 0px 26px 30px -10px,
         rgb(0 0 0 / 73%) 0px 16px 10px -10px;
@@ -494,6 +495,10 @@ const Wrap = styled.div`
         display: block;
         position: relative;
         padding: 4px;
+        @media (max-width: 480px) {
+          // display: none;
+          height: 200px;
+        }
         &::before {
           content: "";
           position: absolute;
@@ -518,7 +523,7 @@ const Wrap = styled.div`
            margin-left: 209px;
             border-radius: 5px;
             width: 100%;
-            // height: 400px;
+            height: 400px;
             @media (max-width: 480px) {
               // display: none;
               // height: 100%;
