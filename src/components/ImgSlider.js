@@ -510,7 +510,7 @@ const Wrap = styled.div`
           @media (max-width: 480px) {
             // display: none;
           box-shadow: 180px 76px 128px #070f1a inset;      
-
+            width: 101%;
           }
         }
         img {
@@ -518,9 +518,11 @@ const Wrap = styled.div`
            margin-left: 209px;
             border-radius: 5px;
             width: 100%;
-            height: 400px;
+            // height: 400px;
             @media (max-width: 480px) {
               // display: none;
+              // height: 100%;
+              object-fit: cover;
             }
         }
 
