@@ -233,7 +233,7 @@ const NewDetail = () => {
             ) : (
               
               <img
-              src="https://image.tmdb.org/t/p/original/8Y43POKjjKDGI9MH89NW0NAzzp8.jpg"
+              src={"https://image.tmdb.org/t/p/original/"+apiData.backdrop_path}
               alt=""
               className=""
               />
@@ -241,14 +241,21 @@ const NewDetail = () => {
           <div className=" h-[150px] flex">
             <img
               className="h-[100%]"
-              src="https://image.tmdb.org/t/p/original/vZloFAK7NmvMGKE7VkF5UHaz0I.jpg"
+              src={"https://image.tmdb.org/t/p/original/"+apiData.poster_path}
             />
             <div className="ml-[20px] mt-[10px]">
 
             <div className="">
-            <h1 className="text-gray-300 tracking-[2px] text-lg">Attack on Taitan</h1>
-            <h1 className="text-white/50 text-[14px] tracking-[1.7px]">100min &#8226;  2021 &#8226; 7.9 &#9733;</h1>
-            <h1 className="text-[13px] text-white/40 tracking-[2px]"> Action | comedy </h1>
+            <h1 className="text-gray-300 tracking-[2px] text-lg">{apiData.original_title || apiData.name}</h1>
+            <h1 className="text-white/50 text-[14px] tracking-[1.7px]"> {(apiData && apiData.runtime) || apiData.episode_run_time} min
+                &#8226;   {apiData &&
+                  sliceData(
+                    apiData.release_date || apiData.first_air_date
+                  )}{" "}  &#8226; {apiData && apiData.vote_average.toFixed(1)}&#9733;</h1>
+            <h1 className="text-[13px] text-white/40 tracking-[2px]">  {apiData &&
+                  apiData.genres.map((genre) => (
+                    <span key={genre.id}>{genre.name} | </span>
+                  ))} </h1>
             </div>
             
 
