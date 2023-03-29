@@ -10,10 +10,36 @@ import {
   setSignOutState,
 } from "../features/users/userSlice";
 import { auth, provider } from "../firebase";
-
 import { BiSearchAlt2 } from "react-icons/bi";
 
+import ToggleButton from '@mui/material/ToggleButton';
+import ToggleButtonGroup from '@mui/material/ToggleButtonGroup';
+// import { makeStyles } from "@material-ui/core/styles";
+import React  from "react";
+
+
+
+
+
+
+
+
+
+
 const Header = (props) => {
+  
+    const [alignment, setAlignment] = React.useState('movie');
+  
+    const handleAlignment = (event, newAlignment) => {
+      // setAlignment(newAlignment);
+      if (alignment === "movie") {
+            setAlignment("tv");
+      }
+      else {
+        setAlignment("movie");
+      }
+
+    };
   const [isActive, setIsActive] = useState(false);
   const [search, setSearch] = useState(null);
   const dispatch = useDispatch();
@@ -28,9 +54,12 @@ const Header = (props) => {
   function onSubmitHandler(e) {
     if (e.key === "Enter") {
       e.preventDefault();
-      history(`/search/${search}`);
+      history(`/search/${search}/${alignment}`);
       console.log(search);
     }
+  }
+  function onSubmitHandler2() {
+    history(`/search/${search}/${alignment}`);
   }
 
   useEffect(() => {
@@ -100,10 +129,7 @@ const Header = (props) => {
               <img src="/images/images/watchlist-icon.svg" alt="HOME" />
               <span>WATCHLIST</span>
             </a>
-            <a href="/">
-              <img src="/images/images/original-icon.svg" alt="HOME" />
-              <span>ORIGINALS</span>
-            </a>
+
             <a href="/">
               <img src="/images/images/movie-icon.svg" alt="HOME" />
               <span>MOVIES</span>
@@ -113,6 +139,19 @@ const Header = (props) => {
               <span>SERIES</span>
             </a>
           </NavMenu>
+          
+    <ToggleButtonGroup
+      value={alignment}
+      color="primary"
+      exclusive
+      onChange={handleAlignment}
+      onClick={onSubmitHandler2}
+      aria-label="text alignment"
+      
+    >
+      <ToggleButton onChange={handleAlignment} className=" w-[50px] h-[40px]  bg-gray-600/50" value="tv">Tv</ToggleButton>
+  <ToggleButton  onClick={handleAlignment} className="w-[70px] h-[40px]   bg-gray-600/50" value="movie">Movies</ToggleButton>
+    </ToggleButtonGroup>
           {isActive ? (
             <SearchBar className="  max-[480px]:!hidden  "
               style={{

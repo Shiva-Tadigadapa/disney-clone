@@ -7,7 +7,8 @@ import { useEffect } from "react";
 import { SelectUserName } from "../features/users/userSlice";
 import { useSelector } from "react-redux";
 const Search = () => {
-  const { name } = useParams();
+  const { name,type } = useParams();
+
   const [search, setSaveSearch] = useState(null);
   let SortedData = [];
   const userName = useSelector(SelectUserName);
@@ -15,7 +16,7 @@ const Search = () => {
   console.log("dfw" + name);
   useEffect(() => {
     const getResults = async () => {
-      let url = `https://api.themoviedb.org/3/search/movie?api_key=c5ad2827c51f36bcbad41dc821d6d7c1&query=${name}`;
+      let url = `https://api.themoviedb.org/3/search/${type}?api_key=c5ad2827c51f36bcbad41dc821d6d7c1&query=${name}`;
       const response = await fetch(url);
       const data = await response.json();
       for (let i = 0; i < data.results.length; i++) {
@@ -31,7 +32,7 @@ const Search = () => {
       console.log(search);
     };
     getResults();
-  }, [name, userName]);
+  }, [name, userName, type]);
 
   //  getResults();
   return (
