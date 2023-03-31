@@ -5,7 +5,7 @@ import { MdAddCircleOutline } from "react-icons/md";
 import { FiShare2 } from "react-icons/fi";
 import { GiShare } from "react-icons/gi";
 import { setResults } from "../features/APISlice/ApiSlice";
-// import styled from "styled-components";
+import styled from "styled-components";
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
