@@ -1,8 +1,9 @@
 import styled from "styled-components";
 import ImgSlider from "./ImgSlider";
+
 import Viewers from "./Views";
 
-import { useEffect } from "react";
+import { useEffect , useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import db from "../firebase";
 import { setMovies } from "../features/movies/movieSlice";
@@ -26,9 +27,7 @@ const Home = (props) => {
   // let newDisneys = [];
   // let originals = [];
   // let trendings = [];
-  let imgs = [];
-  let topDay = [];
-  let topRated = [];
+
 
   let geners = [
     { id: 10759, name: "Action & Adventure" },
@@ -87,118 +86,219 @@ const Home = (props) => {
 
   const Api = useSelector(SelectResults);
 
+  // useEffect(() => {
+  //   const ApiData = async () => {
+  //     const response = await fetch(
+  //       "https://api.themoviedb.org/3/trending/all/week?api_key=c5ad2827c51f36bcbad41dc821d6d7c1"
+  //     );
+  //     const data = await response.json();
+  //     const response3 = await fetch(
+  //       "https://api.themoviedb.org/3/trending/all/day?api_key=c5ad2827c51f36bcbad41dc821d6d7c1"
+  //     );
+
+  //     const data3 = await response3.json();
+  //     console.log(data3);
+  //     const response2 = await fetch(
+  //       "https://api.themoviedb.org/3/movie/top_rated?api_key=c5ad2827c51f36bcbad41dc821d6d7c1&page=1"
+  //     );
+  //     const data2 = await response2.json();
+
+  //     for (let i = 0; i < data.results.length; i++) {
+  //       imgs.push({
+  //         image:
+  //           "https://image.tmdb.org/t/p/original" + data.results[i].backdrop_path,
+  //         id: data.results[i].id,
+  //         name: data.results[i].name || data.results[i].title,
+  //         or_lan: data.results[i].original_language,
+  //         overview: data.results[i].overview,
+  //         poster_path:
+  //           "https://image.tmdb.org/t/p/original" + data.results[i].poster_path,
+  //         FAD: dateSlicer(
+  //           data.results[i].first_air_date || data.results[i].release_date
+  //         ),
+  //         vote: data.results[i].vote_average,
+  //         media_type: data.results[i].media_type,
+  //         rating: Slicer(data.results[i].vote_average),
+  //         or_country: data.results[i].origin_country,
+  //         geners: findGern(...data.results[i].genre_ids),
+  //       });
+  //     }
+
+  //     for (let i = 0; i < data3.results.length; i++) {
+  //       topDay.push({
+  //         image:
+  //           "https://image.tmdb.org/t/p/original" + data3.results[i].backdrop_path,
+  //         id: data3.results[i].id,
+  //         name: data3.results[i].name || data3.results[i].title,
+  //         or_lan: data3.results[i].original_language,
+  //         overview: data3.results[i].overview,
+  //         poster_path:
+  //           "https://image.tmdb.org/t/p/original" + data3.results[i].poster_path,
+  //         FAD: dateSlicer(
+  //           data3.results[i].first_air_date || data3.results[i].release_date
+  //         ),
+  //         vote: data3.results[i].vote_average,
+  //         media_type: data3.results[i].media_type,
+  //         rating: Slicer(data3.results[i].vote_average),
+  //         or_country: data3.results[i].origin_country,
+  //         geners: findGern(...data3.results[i].genre_ids),
+  //       });
+  //     }
+
+
+     
+
+     
+
+  //     for (let i = 0; i < data2.results.length; i++) {
+  //       topRated.push({
+  //         image:
+  //           "https://image.tmdb.org/t/p/original" + data2.results[i].backdrop_path,
+  //         id: data2.results[i].id,
+  //         name:
+  //           data2.results[i].name ||
+  //           data2.results[i].title ||
+  //           data2.results[i].original_title,
+  //         or_lan: data2.results[i].original_language,
+  //         overview: data2.results[i].overview,
+  //         poster_path:
+  //           "https://image.tmdb.org/t/p/original" + data2.results[i].poster_path,
+  //         FAD: dateSlicer(
+  //           data2.results[i].first_air_date || data2.results[i].release_date
+  //         ),
+  //         vote: data2.results[i].vote_average,
+  //         media_type: "movie",
+  //         rating: Slicer(data2.results[i].vote_average),
+  //         or_country: data2.results[i].origin_country,
+  //         geners: findGern(...data2.results[i].genre_ids),
+  //       });
+  //     }
+  //     dispatch(
+  //       setResults({
+  //         results: data.results,
+  //         images: imgs,
+  //         topRated: data2.results,
+  //         customTopRated: topRated,
+  //         topDay: data3.results,
+  //         CostopDay: topDay,
+
+  //       })
+  //     );
+
+  //     //   dispatch(setResults({
+  //     //   }))
+  //     // }
+  //   };
+  //   ApiData();
+  // }, [userName]);
+
+  const [trending, setTrending] = useState([]);
+  const [topRated, setTopRated] = useState([]);
+  const [topDay, setTopDay] = useState([]);
   useEffect(() => {
     const ApiData = async () => {
       const response = await fetch(
         "https://api.themoviedb.org/3/trending/all/week?api_key=c5ad2827c51f36bcbad41dc821d6d7c1"
       );
-      const data = await response.json();
+      const Trending_week = await response.json();
+      setTrending(Trending_week.results);
+
       const response3 = await fetch(
         "https://api.themoviedb.org/3/trending/all/day?api_key=c5ad2827c51f36bcbad41dc821d6d7c1"
       );
+      const Trending_day = await response3.json();
+      setTopDay(Trending_day.results);
 
-      const data3 = await response3.json();
-      console.log(data3);
       const response2 = await fetch(
         "https://api.themoviedb.org/3/movie/top_rated?api_key=c5ad2827c51f36bcbad41dc821d6d7c1&page=1"
       );
-      const data2 = await response2.json();
-
-      for (let i = 0; i < data.results.length; i++) {
-        imgs.push({
-          image:
-            "https://image.tmdb.org/t/p/original" + data.results[i].backdrop_path,
-          id: data.results[i].id,
-          name: data.results[i].name || data.results[i].title,
-          or_lan: data.results[i].original_language,
-          overview: data.results[i].overview,
-          poster_path:
-            "https://image.tmdb.org/t/p/original" + data.results[i].poster_path,
-          FAD: dateSlicer(
-            data.results[i].first_air_date || data.results[i].release_date
-          ),
-          vote: data.results[i].vote_average,
-          media_type: data.results[i].media_type,
-          rating: Slicer(data.results[i].vote_average),
-          or_country: data.results[i].origin_country,
-          geners: findGern(...data.results[i].genre_ids),
-        });
-      }
-
-      for (let i = 0; i < data3.results.length; i++) {
-        topDay.push({
-          image:
-            "https://image.tmdb.org/t/p/original" + data3.results[i].backdrop_path,
-          id: data3.results[i].id,
-          name: data3.results[i].name || data3.results[i].title,
-          or_lan: data3.results[i].original_language,
-          overview: data3.results[i].overview,
-          poster_path:
-            "https://image.tmdb.org/t/p/original" + data3.results[i].poster_path,
-          FAD: dateSlicer(
-            data3.results[i].first_air_date || data3.results[i].release_date
-          ),
-          vote: data3.results[i].vote_average,
-          media_type: data3.results[i].media_type,
-          rating: Slicer(data3.results[i].vote_average),
-          or_country: data3.results[i].origin_country,
-          geners: findGern(...data3.results[i].genre_ids),
-        });
-      }
+      const top_rated = await response2.json();
+      setTopRated(top_rated.results);
 
 
-     
-
-     
-
-      for (let i = 0; i < data2.results.length; i++) {
-        topRated.push({
-          image:
-            "https://image.tmdb.org/t/p/original" + data2.results[i].backdrop_path,
-          id: data2.results[i].id,
-          name:
-            data2.results[i].name ||
-            data2.results[i].title ||
-            data2.results[i].original_title,
-          or_lan: data2.results[i].original_language,
-          overview: data2.results[i].overview,
-          poster_path:
-            "https://image.tmdb.org/t/p/original" + data2.results[i].poster_path,
-          FAD: dateSlicer(
-            data2.results[i].first_air_date || data2.results[i].release_date
-          ),
-          vote: data2.results[i].vote_average,
-          media_type: "movie",
-          rating: Slicer(data2.results[i].vote_average),
-          or_country: data2.results[i].origin_country,
-          geners: findGern(...data2.results[i].genre_ids),
-        });
-      }
-      dispatch(
-        setResults({
-          results: data.results,
-          images: imgs,
-          topRated: data2.results,
-          customTopRated: topRated,
-          topDay: data3.results,
-          CostopDay: topDay,
-
-        })
-      );
-
-      //   dispatch(setResults({
-      //   }))
+      // for (let i = 0; i < data.results.length; i++) {
+      //   imgs.push({
+      //     image:
+      //       "https://image.tmdb.org/t/p/original" + data.results[i].backdrop_path,
+      //     id: data.results[i].id,
+      //     name: data.results[i].name || data.results[i].title,
+      //     or_lan: data.results[i].original_language,
+      //     overview: data.results[i].overview,
+      //     poster_path:
+      //       "https://image.tmdb.org/t/p/original" + data.results[i].poster_path,
+      //     FAD: dateSlicer(
+      //       data.results[i].first_air_date || data.results[i].release_date
+      //     ),
+      //     vote: data.results[i].vote_average,
+      //     media_type: data.results[i].media_type,
+      //     rating: Slicer(data.results[i].vote_average),
+      //     or_country: data.results[i].origin_country,
+      //     geners: findGern(...data.results[i].genre_ids),
+      //   });
       // }
+
+      // for (let i = 0; i < data3.results.length; i++) {
+      //   topDay.push({
+      //     image:
+      //       "https://image.tmdb.org/t/p/original" + data3.results[i].backdrop_path,
+      //     id: data3.results[i].id,
+      //     name: data3.results[i].name || data3.results[i].title,
+      //     or_lan: data3.results[i].original_language,
+      //     overview: data3.results[i].overview,
+      //     poster_path:
+      //       "https://image.tmdb.org/t/p/original" + data3.results[i].poster_path,
+      //     FAD: dateSlicer(
+      //       data3.results[i].first_air_date || data3.results[i].release_date
+      //     ),
+      //     vote: data3.results[i].vote_average,
+      //     media_type: data3.results[i].media_type,
+      //     rating: Slicer(data3.results[i].vote_average),
+      //     or_country: data3.results[i].origin_country,
+      //     geners: findGern(...data3.results[i].genre_ids),
+      //   });
+      // }
+
+
+     
+
+     
+
+      // for (let i = 0; i < data2.results.length; i++) {
+      //   topRated.push({
+      //     image:
+      //       "https://image.tmdb.org/t/p/original" + data2.results[i].backdrop_path,
+      //     id: data2.results[i].id,
+      //     name:
+      //       data2.results[i].name ||
+      //       data2.results[i].title ||
+      //       data2.results[i].original_title,
+      //     or_lan: data2.results[i].original_language,
+      //     overview: data2.results[i].overview,
+      //     poster_path:
+      //       "https://image.tmdb.org/t/p/original" + data2.results[i].poster_path,
+      //     FAD: dateSlicer(
+      //       data2.results[i].first_air_date || data2.results[i].release_date
+      //     ),
+      //     vote: data2.results[i].vote_average,
+      //     media_type: "movie",
+      //     rating: Slicer(data2.results[i].vote_average),
+      //     or_country: data2.results[i].origin_country,
+      //     geners: findGern(...data2.results[i].genre_ids),
+      //   });
+      // }
+  
+
     };
     ApiData();
-  }, [userName]);
+  }, []);
+
 
   return (
     <Container>
       <ImgSlider />
       <Viewers />
-      <NewTrending />
-      <TopRated />
+      <NewTrending topDay={topDay} trending={trending} />
+      <TopRated  topRated={topRated}/>
 
     </Container>
   );

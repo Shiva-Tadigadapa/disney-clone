@@ -9,6 +9,7 @@ import { SelectTopRated } from "../features/APISlice/ApiSlice";
 import {SelectCustomTopRated } from "../features/APISlice/ApiSlice";
 
 const TopRated = (props) => {
+    const {topRated} = props;
   const ApiImg = useSelector(SelectCustomTopRated);
     //    console.log(ApiImg[0])
     
@@ -61,15 +62,15 @@ const TopRated = (props) => {
           borderRadius: "10px",
         }}/>
     <Carousel {...settings}>
-      {ApiImg &&
-        ApiImg.map((ApiMovie, key) => (
+      {topRated &&
+        topRated.map((ApiMovie, key) => (
           <Link
           // to={"/detail/" + ApiMovie.id}
           to={"/detail/"+ApiMovie.id+"/"+ApiMovie.media_type}
           onDragStart={(event) => event.preventDefault()}
           >
             <Wrap key={key}>
-              <img src={ApiMovie.image} alt={ApiMovie.title} />
+              <img src={`https://image.tmdb.org/t/p/original/${ApiMovie.backdrop_path}`}alt={ApiMovie.title} />
               <HoverData>
                 <TitData>
                   <SubTitle className="max-[480px]:text-[20px]">{ApiMovie.name}</SubTitle>

@@ -11,6 +11,10 @@ import TopDay from "./TopDay";
 import {useEffect} from "react"
 
 const NewTrending = (props) => {
+
+  const {trending} = props;
+  const {topDay}= props;
+
   const ApiImg = useSelector(SelectImages);
   const TodayResults = useSelector(SelectCostopDay);
   const [today, setToday] = useState(()=>{
@@ -117,15 +121,15 @@ const NewTrending = (props) => {
   {
     today ? (
       <Carousel {...settings}>
-        {ApiImg &&
-          ApiImg.map((ApiMovie, key) => (
+        {topDay &&
+          topDay.map((ApiMovie, key) => (
             <Link
               // to={"/detail/" + ApiMovie.id}
               to={"/detail/" + ApiMovie.id+"/"+ApiMovie.media_type}
               onDragStart={(event) => event.preventDefault()}
             >
               <Wrap key={key}>
-                <img src={ApiMovie.image} alt={ApiMovie.title} />
+                <img src={`https://image.tmdb.org/t/p/original/${ApiMovie.backdrop_path}`} alt={ApiMovie.title} />
                 <HoverData>
                   <TitData>
                     <SubTitle className="max-[480px]:text-[20px]">{ApiMovie.name}</SubTitle>
@@ -144,7 +148,7 @@ const NewTrending = (props) => {
           ))}
       </Carousel>
     ) : (
-    <TopDay />
+    <TopDay  trending={trending} />
       
     )
   }

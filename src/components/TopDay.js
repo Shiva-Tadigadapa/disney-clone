@@ -9,6 +9,8 @@ import { SelectCostopDay } from "../features/APISlice/ApiSlice";
 import { useState } from "react";
 
 const TopDay = (props) => {
+  const {trending} = props;
+
   const ApiImg = useSelector(SelectImages);
   const TodayResults = useSelector(SelectCostopDay);
   const [today, setToday] = useState(true);
@@ -80,15 +82,15 @@ const TopDay = (props) => {
   return (
     <>
       <Carousel {...settings}>
-        {TodayResults &&
-          TodayResults.map((ApiMovie, key) => (
+        {trending &&
+          trending.map((ApiMovie, key) => (
             <Link
               // to={"/detail/" + ApiMovie.id}
               to={"/detail/" + ApiMovie.id+"/"+ApiMovie.media_type}
               onDragStart={(event) => event.preventDefault()}
             >
               <Wrap key={key}>
-                <img src={ApiMovie.image} alt={ApiMovie.title} />
+                <img src={`https://image.tmdb.org/t/p/original/${ApiMovie.backdrop_path}`} alt={ApiMovie.title} />
                 <HoverData>
                   <TitData>
                     <SubTitle className="max-[480px]:text-[20px]">{ApiMovie.name}</SubTitle>
