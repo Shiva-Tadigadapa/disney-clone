@@ -21,7 +21,7 @@ import { GrAdd } from "react-icons/gr";
 import { SelectAllResults } from "../features/APISlice/ApiSlice";
 import MdetailRec from "./MdetailRec";
 import SeasonDetail from "./SeasonDetail";
-import { auth, provider, wl } from "../firebase";
+import { auth, provider} from "../firebase";
 import { Link } from "react-router-dom";
 import { AiOutlinePauseCircle } from "react-icons/ai";
 import { ToastContainer, toast } from "react-toastify";
